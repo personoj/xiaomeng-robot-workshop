@@ -1,0 +1,11 @@
+{
+  "reviewed_local_head": "e80db5511b231ebc1a22b2f40ea81abd83543fe7",
+  "baseline": "be50a45966674425785cf0cb4732b03a274bbb1b",
+  "code_tests": "unchanged reviewed code; this supplemental commit adds only public synthetic evidence",
+  "remote_publication": "draft PR only; no merge or deployment",
+  "browser_gpu_hardware_model_acceptance": "not completed",
+  "node_passed": 80,
+  "python_passed": 26,
+  "build": "passed",
+  "skipped_cross_repo_sdk_tests": 0
+}

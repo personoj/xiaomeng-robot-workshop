@@ -67,7 +67,13 @@ export function drawCoordinates(ctx, step, progress, options={}){
     targetPoint(ctx);for(let i=0;i<3;i++){stroke(ctx,positions[i],pp,i===0?AMBER:i===1?ICE:'#8eefe4',.9,.15+.2*b2,[3,5]);}
     const follow=b2*2,index=Math.min(1,Math.floor(follow)),f=follow-index,curve=curves[index];if(b2>0&&b2<1)pearl(ctx,partialPath(curve,f).at(-1),3.5,WHITE);
     coordinateLabels(ctx,a);label(ctx,'O','B',bp[0]+12,bp[1]-2,{color:'#8eefe4',alpha:a,superIndex:true});
-    label(ctx,'T','WC',300,250,{color:AMBER,alpha:a*b0,size:19});label(ctx,'T','BW',175,229,{color:ICE,alpha:a*b1,size:19});
+    label(ctx,'T','WC',300,250,{color:AMBER,alpha:a*b0,size:19});
+    // The old x=175 anchor put T_BW directly on the world triad's z axis
+    // (x=177.6). Keep its ink left of that axis and attach a quiet leader to
+    // the W→B transformation curve, not to the vertical coordinate arrow.
+    const chainAnchor=curves[1][10];
+    stroke(ctx,[162,220],chainAnchor,ICE,.75,a*b1*.55);
+    label(ctx,'T','BW',125,218,{color:ICE,alpha:a*b1,size:19});
   }
   ctx.restore();
 }

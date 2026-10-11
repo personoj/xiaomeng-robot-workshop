@@ -139,7 +139,7 @@ class Workshop:
                     "message":task.get("message") if task else None,"instruction":task.get("instruction","") if task else "","job":task,
                     "objects":objects,"frame":self.world.frame(compact=compact),"frame_count":len(self.history),
                     "decision":self.decision.public_status(),"last_decision":getattr(self,"last_decision",None),
-                    "capabilities":{"physical_pick_place":True,"visual_robot_ingress":True,"welding_execution":True,"welding_mode":"checked_kinematic_simulation","seam_numbering":"从上到下1到7"}}
+                    "capabilities":{"physical_pick_place":True,"visual_robot_ingress":True,"welding_execution":True,"welding_mode":"checked_kinematic_simulation","seam_numbering":"从上到下1到7","runtime_identity_guard":True}}
 
     def scene(self):
         with self.lock:
@@ -151,8 +151,9 @@ class Workshop:
         with self.lock:
             return {"episode_id":self.scene_id,"robot_geom_ids":self.robot_geoms,**self.world.scene(include_inactive=True)}
 
-    def resolve(self,operation,utterance,expected_revision):
+    def resolve(self,operation,utterance,expected_revision,expected_runtime_id=None):
         with self.lock:
+            if expected_runtime_id is not None and expected_runtime_id!=self.runtime_id:raise ValueError("工作坊服务已重启，请读取最新场景后重试")
             if expected_revision!=self.revision:raise ValueError("场景已改变，请读取最新对象后重试")
             self._sync();objects=copy.deepcopy(self.objects);version=self.revision
         state,questions,commands=resolve_payload(operation,utterance,objects)
@@ -173,7 +174,7 @@ class Workshop:
             self.last_decision={"model":result["model"],"elapsed_ms":result["elapsed_ms"],"server_ms":result["server_ms"],"choice":choice}
         if choice not in commands:
             return {"resolved":False,"reason":choice,"message":{"clarify":"请指定要操作的对象编号，例如蓝球1或蓝球2。","not_found":"场内没有找到你指定的对象，请核对编号。","unsupported":"请先给出一个明确操作。"}[choice],"decision":self.last_decision}
-        return {"resolved":True,"command":commands[choice],"expected_revision":version,"decision":self.last_decision}
+        return {"resolved":True,"command":commands[choice],"expected_revision":version,"expected_runtime_id":self.runtime_id,"decision":self.last_decision}
 
     def command(self,value):
         if value["action"]=="reset":
@@ -184,6 +185,7 @@ class Workshop:
             if finishing and finishing.is_alive():finishing.join(timeout=3)
         with self.lock:
             rid=value["request_id"];payload={k:v for k,v in value.items() if k!="request_id"}
+            if value.get("expected_runtime_id") is not None and value["expected_runtime_id"]!=self.runtime_id:raise ValueError("工作坊服务已重启，请读取最新场景后重试")
             if rid in self.requests:
                 old,reply=self.requests[rid]
                 if old!=payload:raise ValueError("同一请求编号不能用于不同操作")

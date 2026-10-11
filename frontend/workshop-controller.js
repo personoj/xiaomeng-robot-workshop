@@ -2,6 +2,10 @@ export {api} from './demo-controller.js';
 import {api} from './demo-controller.js';
 import {WorkshopStateCache} from './workshop-state.js';
 export const TERMINAL=new Set(['completed','stopped','error']);
+function assertCurrent(options){
+  if(options.isCurrent&&!options.isCurrent())throw new Error('当前指令已失效');
+}
+const sameRuntime=(a,b)=>a?.runtime_id===b?.runtime_id&&a?.scene_id===b?.scene_id;
 export function summarize(s){
   return {application:'小萌持续机器人工作坊',scene_id:s.scene_id,scene_revision:s.revision,task_id:s.job?.id||null,
     status:s.status,phase:s.phase,instruction:s.instruction,success:s.job?.success===true,verification:s.job?.verification||null,
@@ -25,31 +29,53 @@ export class DemoController{
     }).finally(()=>{this.rendering=null;});
     return this.state;
   }
-  async refresh(){return this.acceptState(await api('/api/workshop/state'));}
-  connectStream(onStatus=()=>{}){
-    this.stream?.close();this.stream=new EventSource('/api/workshop/events');
-    this.stream.onopen=()=>{this.streamConnected=true;onStatus(true);};
-    this.stream.onerror=()=>{this.streamConnected=false;onStatus(false);};
-    this.stream.onmessage=({data})=>{try{this.acceptState(JSON.parse(data));}catch(error){this.onError(error);this.refresh().catch(this.onError);}};
+  acceptReadState(state,before){
+    // A newly connected stream outranks an HTTP read started in an older runtime,
+    // including a first read whose runtime was not yet known to the cache.
+    if(this.state&&!sameRuntime(this.state,before)&&!sameRuntime(this.state,state))return this.state;
+    return this.acceptState(state);
   }
-  dispose(){this.stream?.close();}
+  async refresh(options={}){
+    const before=this.state,next=await api('/api/workshop/state');
+    if(options.isCurrent&&!options.isCurrent())return this.state;
+    return this.acceptReadState(next,before);
+  }
+  connectStream(onStatus=()=>{}){
+    this.stream?.close();const stream=this.stream=new EventSource('/api/workshop/events');
+    const isCurrent=()=>this.stream===stream;
+    stream.onopen=()=>{if(isCurrent()){this.streamConnected=true;onStatus(true);}};
+    stream.onerror=()=>{if(isCurrent()){this.streamConnected=false;onStatus(false);}};
+    stream.onmessage=({data})=>{if(!isCurrent())return;try{this.acceptState(JSON.parse(data));}catch(error){this.onError(error);this.refresh({isCurrent}).catch(this.onError);}};
+  }
+  dispose(){this.stream?.close();this.stream=null;this.streamConnected=false;}
   async command(action,params={},options={}){
     if(this.busy)throw new Error('上一个操作尚未结束');this.busy=true;
     const started=performance.now();
     try{
-      if(options.isCurrent&&!options.isCurrent())throw new Error('当前指令已失效');
+      assertCurrent(options);
+      const observedBeforeRead=this.state;
       const before=options.expectedRevision==null?await api('/api/workshop/state'):null;
-      const result=await api('/api/workshop/command',{request_id:options.requestId||crypto.randomUUID(),action,expected_revision:options.expectedRevision??before.revision,...(typeof params==='object'?params:{})});
-      this.acceptState(result.state);this.metrics.command_ms=performance.now()-started;
+      // A BOOT interruption can invalidate the intent while the read is in flight.
+      // Check immediately before the mutation, without changing its revision guard.
+      assertCurrent(options);
+      if(before&&this.state&&!sameRuntime(this.state,observedBeforeRead)&&!sameRuntime(this.state,before))throw new Error('工作坊服务已变化，当前指令已失效');
+      const runtime=options.expectedRuntimeId??(before?.capabilities?.runtime_identity_guard?before.runtime_id:undefined);
+      const observedBeforeCommand=this.state;
+      const result=await api('/api/workshop/command',{request_id:options.requestId||crypto.randomUUID(),action,expected_revision:options.expectedRevision??before.revision,...(runtime?{expected_runtime_id:runtime}:{}),...(typeof params==='object'?params:{})});
+      this.acceptReadState(result.state,observedBeforeCommand);this.metrics.command_ms=performance.now()-started;
       return {ok:true,accepted:result.accepted,task_id:result.task_id,status:result.accepted?'accepted':'completed',created:result.created,state:summarize(result.state),message:result.accepted?'任务已受理，等待完成通知。':result.created?`已添加${result.created.spoken_name}`:'操作已完成'};
     }finally{this.busy=false;}
   }
   async resolve(operation,utterance,options={}){
-    const started=performance.now();await this.refresh();
-    const data=await api('/api/workshop/resolve',{operation,utterance,expected_revision:this.state.revision});
+    assertCurrent(options);
+    const started=performance.now();const before=await this.refresh();
+    assertCurrent(options);
+    const data=await api('/api/workshop/resolve',{operation,utterance,expected_revision:before.revision,...(before.capabilities?.runtime_identity_guard?{expected_runtime_id:before.runtime_id}:{})});
+    assertCurrent(options);
+    if(!sameRuntime(this.state,before))throw new Error('工作坊服务已变化，当前指令已失效');
     this.metrics.resolve_ms=performance.now()-started;this.metrics.decision=data.decision;
     if(!data.resolved)return {ok:false,needs_clarification:true,message:data.message,decision:data.decision};
-    const {action,...params}=data.command;return this.command(action,params,{...options,expectedRevision:data.expected_revision});
+    const {action,...params}=data.command;return this.command(action,params,{...options,expectedRevision:data.expected_revision,expectedRuntimeId:data.expected_runtime_id});
   }
 }
 export function voiceActions(controller,onAccepted){

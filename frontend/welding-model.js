@@ -553,6 +553,19 @@ export async function createXiaomengH({loadLink,font,renderCables=true,cableShap
   // does not change cable shapes in the arm frame. Reuse only that shape;
   // all bend, self/rigid/obstacle collisions still run for every substep.
   const cableShapes=new Map();
+  function cableShapeKey(){
+    // The full arm-relative installation determines the curves, not just the
+    // requested angles. Include every local transform and parent on each anchor
+    // path, so editing a connector, joint origin or accessory invalidates reuse.
+    // Root/world transforms cancel in the arm frame; J4..J6 are not anchors.
+    const frames=new Set();
+    for(const anchor of [arm,accessories.feeder,basePort,accessories.spool,joints[1]]){
+      let node=anchor;
+      for(;node&&node!==root;node=node.parent)frames.add(node);
+      if(node!==root)return null; // An externally reparented assembly is uncached.
+    }
+    return [...frames].map(node=>`${node.id}:${node.parent.id}:${node.matrix.elements.join(',')}`).join('|');
+  }
   function candidateCables(){
     root.updateMatrixWorld(true);
     const main=fixedDressCurve(V(localPoint(accessories.feeder,[-.065,.205,.048])),localDirection(accessories.feeder,[0,1,0]),V(localPoint(basePort,[-.059,0,0])),localDirection(basePort,[1,0,0]),CABLE_LENGTHS['corrugated-main-hose'],V([0,1,-.7]).normalize());
@@ -598,11 +611,11 @@ export async function createXiaomengH({loadLink,font,renderCables=true,cableShap
     for(let step=1;step<=steps;step++){
       const current=previous?requested.map((q,i)=>T.MathUtils.lerp(previous[i],q,step/steps)):requested;
       applyPose(current);
-      const shapeKey=current.join(',');
-      items=cableShapeCacheSize>0?cableShapes.get(shapeKey):null;
+      const shapeKey=cableShapeCacheSize>0?cableShapeKey():null;
+      items=shapeKey!==null?cableShapes.get(shapeKey):null;
       if(!items){
         items=candidateCables();
-        if(cableShapeCacheSize>0&&items.every(c=>c.ok)){
+        if(shapeKey!==null&&items.every(c=>c.ok)){
           if(cableShapes.size>=cableShapeCacheSize)cableShapes.delete(cableShapes.keys().next().value);
           cableShapes.set(shapeKey,items);
         }

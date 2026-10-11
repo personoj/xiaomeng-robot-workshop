@@ -1,0 +1,244 @@
+{
+  "environment": {
+    "node": "v24.19.0",
+    "platform": "linux",
+    "arch": "x64",
+    "kernel": "6.18.44",
+    "cpuModel": "AMD EPYC 9V74 80-Core Processor",
+    "hostLogicalCpus": 9,
+    "availableParallelism": 9,
+    "hostMemoryBytes": 10451464192,
+    "cpuMax": null,
+    "memoryMax": null,
+    "baselineCommit": "be50a45966674425785cf0cb4732b03a274bbb1b",
+    "conditions": "Serial alternating fresh Node processes, same machine/dependencies/spec. Cold module/model start, warm OS filesystem cache. CPU microbenchmarks, not browser frame metrics."
+  },
+  "exclusions": {
+    "excluded": [
+      {
+        "results": "final/results.json",
+        "runs": [
+          1
+        ],
+        "reason": "A pre-existing animation Canvas audit was finishing at the start of the requested quiet window. The whole first baseline/current pair was excluded and a new full pair collected, rather than assuming no CPU contention. Raw excluded samples are retained."
+      }
+    ],
+    "reported": [
+      {
+        "results": "final/results.json",
+        "runs": [
+          2,
+          3
+        ]
+      },
+      {
+        "results": "replacement/results.json",
+        "runs": [
+          1
+        ]
+      }
+    ]
+  },
+  "cleanPairs": 3,
+  "validation": {
+    "exactPlanEquality": true,
+    "planSha256": "99ff052e20c8c0d719f7e6f3d4c004189e02b319f0fffd2d9b05e4dab962db5b",
+    "base_locked": true,
+    "stitches": 14,
+    "frames": 2445,
+    "max_cable_length_error": 3.896390592394994e-05,
+    "max_connector_error": 1.3732700395566711e-15,
+    "max_tcp_error": 1.7436054774758517e-05,
+    "collisions": 0,
+    "scope": "Checked kinematic model, fixed-length cable curves and triangle collisions; not a physical welding process simulation"
+  },
+  "summary": {
+    "preflight": {
+      "baseline": {
+        "wallSeconds": [
+          25.064956815,
+          24.956370317999998,
+          24.578469256
+        ],
+        "cpuSeconds": [
+          26.308643,
+          26.307598,
+          25.815678
+        ],
+        "medianWallSeconds": 24.956370317999998,
+        "medianCpuSeconds": 26.307598,
+        "maxRssMiB": [
+          358.996,
+          389.141,
+          387.039
+        ]
+      },
+      "current": {
+        "wallSeconds": [
+          13.123991981,
+          13.56820325,
+          13.100860625
+        ],
+        "cpuSeconds": [
+          14.310526,
+          14.886607,
+          14.239743
+        ],
+        "medianWallSeconds": 13.123991981,
+        "medianCpuSeconds": 14.310526,
+        "maxRssMiB": [
+          387.027,
+          353.625,
+          360.512
+        ]
+      },
+      "medianWallReductionPercent": 47.41225661516088,
+      "medianCpuReductionPercent": 45.60306874082537
+    },
+    "weld-pose": {
+      "baseline": {
+        "wallSeconds": [
+          25.596721305000003,
+          25.493246566000003,
+          25.661986377
+        ],
+        "cpuSeconds": [
+          26.510573,
+          26.535832,
+          26.530941
+        ],
+        "medianWallSeconds": 25.596721305000003,
+        "medianCpuSeconds": 26.530941,
+        "maxRssMiB": [
+          305.969,
+          305.887,
+          324.094
+        ],
+        "pooledPoseUpdateMs": {
+          "samples": 7335,
+          "p50": 10.014752999999473,
+          "p95": 12.138082999999824,
+          "p99": 14.961233000001812
+        },
+        "medianWorkloadSeconds": 25.186892187
+      },
+      "current": {
+        "wallSeconds": [
+          14.073839631999999,
+          14.066465133000001,
+          13.885699299
+        ],
+        "cpuSeconds": [
+          14.784451,
+          14.765785,
+          14.609824
+        ],
+        "medianWallSeconds": 14.066465133000001,
+        "medianCpuSeconds": 14.765785,
+        "maxRssMiB": [
+          230.023,
+          231.141,
+          228.387
+        ],
+        "pooledPoseUpdateMs": {
+          "samples": 7335,
+          "p50": 5.36543200000051,
+          "p95": 6.766008000000056,
+          "p99": 8.717382000000725
+        },
+        "medianWorkloadSeconds": 13.653473171
+      },
+      "medianWallReductionPercent": 45.04583237286609,
+      "medianCpuReductionPercent": 44.345038496749886
+    },
+    "idle-meter": {
+      "baseline": {
+        "wallSeconds": [
+          0.011340646,
+          0.011895959000000005,
+          0.010494966000000005
+        ],
+        "cpuSeconds": [
+          0.019593,
+          0.021127,
+          0.018508
+        ],
+        "medianWallSeconds": 0.011340646,
+        "medianCpuSeconds": 0.019593,
+        "maxRssMiB": [
+          45.125,
+          45.125,
+          45.75
+        ],
+        "counts": [
+          {
+            "callbacks": 18000,
+            "draws": 1,
+            "datasetWrites": 36000,
+            "pendingFrames": 1,
+            "pendingTimers": 0
+          },
+          {
+            "callbacks": 18000,
+            "draws": 1,
+            "datasetWrites": 36000,
+            "pendingFrames": 1,
+            "pendingTimers": 0
+          },
+          {
+            "callbacks": 18000,
+            "draws": 1,
+            "datasetWrites": 36000,
+            "pendingFrames": 1,
+            "pendingTimers": 0
+          }
+        ]
+      },
+      "current": {
+        "wallSeconds": [
+          0.007276209000000001,
+          0.006641153000000003,
+          0.007160231000000003
+        ],
+        "cpuSeconds": [
+          0.010467,
+          0.009272,
+          0.009966
+        ],
+        "medianWallSeconds": 0.007160231000000003,
+        "medianCpuSeconds": 0.009966,
+        "maxRssMiB": [
+          42.0,
+          42.125,
+          42.125
+        ],
+        "counts": [
+          {
+            "callbacks": 1,
+            "draws": 1,
+            "datasetWrites": 2,
+            "pendingFrames": 0,
+            "pendingTimers": 0
+          },
+          {
+            "callbacks": 1,
+            "draws": 1,
+            "datasetWrites": 2,
+            "pendingFrames": 0,
+            "pendingTimers": 0
+          },
+          {
+            "callbacks": 1,
+            "draws": 1,
+            "datasetWrites": 2,
+            "pendingFrames": 0,
+            "pendingTimers": 0
+          }
+        ]
+      },
+      "medianWallReductionPercent": 36.86222989413474,
+      "medianCpuReductionPercent": 49.13489511560252
+    }
+  },
+  "raw_samples_file": "performance-clean-samples.json.gz"
+}

@@ -15,6 +15,7 @@ class WorkshopCommand(BaseModel):
     request_id:str=Field(min_length=1,max_length=160)
     action:Literal["spawn","remove","pick_place","enter_welder","exit_welder","summon_welder","set_view","weld_seam","pause","resume","stop","reset"]
     expected_revision:int
+    expected_runtime_id:str|None=Field(default=None,min_length=1,max_length=64)
     kind:Literal["ball","cube","tray","panel","welder","gripper"]|None=None
     color:Literal["blue","red","yellow","green","steel"]|None=None
     source:str|None=Field(default=None,max_length=80)
@@ -29,6 +30,7 @@ class ResolveRequest(BaseModel):
     operation:Literal["spawn","remove","pick_place","weld"]
     utterance:str=Field(min_length=1,max_length=2000)
     expected_revision:int
+    expected_runtime_id:str|None=Field(default=None,min_length=1,max_length=64)
 
 
 def workshop_router(workshop):
@@ -73,7 +75,7 @@ def workshop_router(workshop):
         except (ValueError,KeyError,StopIteration) as e:raise HTTPException(409,str(e) if isinstance(e,ValueError) else "道具参数缺失或工位已满") from None
     @router.post("/resolve")
     def resolve(value:ResolveRequest):
-        try:return workshop.resolve(value.operation,value.utterance,value.expected_revision)
+        try:return workshop.resolve(value.operation,value.utterance,value.expected_revision,value.expected_runtime_id)
         except DecisionUnavailable as e:raise HTTPException(503,str(e)) from None
         except ValueError as e:raise HTTPException(409,str(e)) from None
     return router

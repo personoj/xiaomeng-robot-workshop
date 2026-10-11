@@ -1,0 +1,344 @@
+{
+  "size": [
+    600,
+    430
+  ],
+  "rows": [
+    {
+      "topic": "coordinates",
+      "step": 0,
+      "beat": 0,
+      "time": 3.456,
+      "changedPixels": 0
+    },
+    {
+      "topic": "coordinates",
+      "step": 0,
+      "beat": 1,
+      "time": 9.468,
+      "changedPixels": 0
+    },
+    {
+      "topic": "coordinates",
+      "step": 0,
+      "beat": 2,
+      "time": 15,
+      "changedPixels": 0
+    },
+    {
+      "topic": "coordinates",
+      "step": 1,
+      "beat": 0,
+      "time": 18.93,
+      "changedPixels": 0
+    },
+    {
+      "topic": "coordinates",
+      "step": 1,
+      "beat": 1,
+      "time": 23.177999999999997,
+      "changedPixels": 0
+    },
+    {
+      "topic": "coordinates",
+      "step": 1,
+      "beat": 2,
+      "time": 28.584,
+      "changedPixels": 0
+    },
+    {
+      "topic": "coordinates",
+      "step": 2,
+      "beat": 0,
+      "time": 33.722,
+      "changedPixels": 0
+    },
+    {
+      "topic": "coordinates",
+      "step": 2,
+      "beat": 1,
+      "time": 38.522,
+      "changedPixels": 0
+    },
+    {
+      "topic": "coordinates",
+      "step": 2,
+      "beat": 2,
+      "time": 43.288,
+      "changedPixels": 0
+    },
+    {
+      "topic": "coordinates",
+      "step": 3,
+      "beat": 0,
+      "time": 47.495999999999995,
+      "changedPixels": 0
+    },
+    {
+      "topic": "coordinates",
+      "step": 3,
+      "beat": 1,
+      "time": 51.67999999999999,
+      "changedPixels": 739
+    },
+    {
+      "topic": "coordinates",
+      "step": 3,
+      "beat": 2,
+      "time": 56.77599999999999,
+      "changedPixels": 738
+    },
+    {
+      "topic": "inverse_kinematics",
+      "step": 0,
+      "beat": 0,
+      "time": 2.328,
+      "changedPixels": 0
+    },
+    {
+      "topic": "inverse_kinematics",
+      "step": 0,
+      "beat": 1,
+      "time": 6.795999999999999,
+      "changedPixels": 0
+    },
+    {
+      "topic": "inverse_kinematics",
+      "step": 0,
+      "beat": 2,
+      "time": 11.746,
+      "changedPixels": 0
+    },
+    {
+      "topic": "inverse_kinematics",
+      "step": 1,
+      "beat": 0,
+      "time": 16.006,
+      "changedPixels": 0
+    },
+    {
+      "topic": "inverse_kinematics",
+      "step": 1,
+      "beat": 1,
+      "time": 20.833999999999996,
+      "changedPixels": 0
+    },
+    {
+      "topic": "inverse_kinematics",
+      "step": 1,
+      "beat": 2,
+      "time": 25.869999999999997,
+      "changedPixels": 0
+    },
+    {
+      "topic": "inverse_kinematics",
+      "step": 2,
+      "beat": 0,
+      "time": 31.091999999999995,
+      "changedPixels": 0
+    },
+    {
+      "topic": "inverse_kinematics",
+      "step": 2,
+      "beat": 1,
+      "time": 36.331999999999994,
+      "changedPixels": 0
+    },
+    {
+      "topic": "inverse_kinematics",
+      "step": 2,
+      "beat": 2,
+      "time": 40.70999999999999,
+      "changedPixels": 0
+    },
+    {
+      "topic": "inverse_kinematics",
+      "step": 3,
+      "beat": 0,
+      "time": 44.93599999999999,
+      "changedPixels": 0
+    },
+    {
+      "topic": "inverse_kinematics",
+      "step": 3,
+      "beat": 1,
+      "time": 49.47799999999999,
+      "changedPixels": 0
+    },
+    {
+      "topic": "inverse_kinematics",
+      "step": 3,
+      "beat": 2,
+      "time": 55.37999999999999,
+      "changedPixels": 0
+    },
+    {
+      "topic": "pointnet",
+      "step": 0,
+      "beat": 0,
+      "time": 3.726,
+      "changedPixels": 0
+    },
+    {
+      "topic": "pointnet",
+      "step": 0,
+      "beat": 1,
+      "time": 9.654,
+      "changedPixels": 0
+    },
+    {
+      "topic": "pointnet",
+      "step": 0,
+      "beat": 2,
+      "time": 15.213999999999999,
+      "changedPixels": 0
+    },
+    {
+      "topic": "pointnet",
+      "step": 1,
+      "beat": 0,
+      "time": 20.288,
+      "changedPixels": 0
+    },
+    {
+      "topic": "pointnet",
+      "step": 1,
+      "beat": 1,
+      "time": 25.387999999999998,
+      "changedPixels": 0
+    },
+    {
+      "topic": "pointnet",
+      "step": 1,
+      "beat": 2,
+      "time": 30.344,
+      "changedPixels": 0
+    },
+    {
+      "topic": "pointnet",
+      "step": 2,
+      "beat": 0,
+      "time": 34.550000000000004,
+      "changedPixels": 0
+    },
+    {
+      "topic": "pointnet",
+      "step": 2,
+      "beat": 1,
+      "time": 38.562000000000005,
+      "changedPixels": 0
+    },
+    {
+      "topic": "pointnet",
+      "step": 2,
+      "beat": 2,
+      "time": 43.942,
+      "changedPixels": 0
+    },
+    {
+      "topic": "pointnet",
+      "step": 3,
+      "beat": 0,
+      "time": 49.346,
+      "changedPixels": 0
+    },
+    {
+      "topic": "pointnet",
+      "step": 3,
+      "beat": 1,
+      "time": 55.28,
+      "changedPixels": 0
+    },
+    {
+      "topic": "pointnet",
+      "step": 3,
+      "beat": 2,
+      "time": 61.263999999999996,
+      "changedPixels": 0
+    },
+    {
+      "topic": "planning",
+      "step": 0,
+      "beat": 0,
+      "time": 2.988,
+      "changedPixels": 0
+    },
+    {
+      "topic": "planning",
+      "step": 0,
+      "beat": 1,
+      "time": 8.052,
+      "changedPixels": 0
+    },
+    {
+      "topic": "planning",
+      "step": 0,
+      "beat": 2,
+      "time": 12.614,
+      "changedPixels": 0
+    },
+    {
+      "topic": "planning",
+      "step": 1,
+      "beat": 0,
+      "time": 16.732000000000003,
+      "changedPixels": 0
+    },
+    {
+      "topic": "planning",
+      "step": 1,
+      "beat": 1,
+      "time": 21.024000000000004,
+      "changedPixels": 0
+    },
+    {
+      "topic": "planning",
+      "step": 1,
+      "beat": 2,
+      "time": 25.596000000000004,
+      "changedPixels": 0
+    },
+    {
+      "topic": "planning",
+      "step": 2,
+      "beat": 0,
+      "time": 30.658000000000005,
+      "changedPixels": 0
+    },
+    {
+      "topic": "planning",
+      "step": 2,
+      "beat": 1,
+      "time": 36.55800000000001,
+      "changedPixels": 0
+    },
+    {
+      "topic": "planning",
+      "step": 2,
+      "beat": 2,
+      "time": 41.95000000000001,
+      "changedPixels": 0
+    },
+    {
+      "topic": "planning",
+      "step": 3,
+      "beat": 0,
+      "time": 46.846000000000004,
+      "changedPixels": 0
+    },
+    {
+      "topic": "planning",
+      "step": 3,
+      "beat": 1,
+      "time": 51.848000000000006,
+      "changedPixels": 0
+    },
+    {
+      "topic": "planning",
+      "step": 3,
+      "beat": 2,
+      "time": 57.718,
+      "changedPixels": 0
+    }
+  ]
+}

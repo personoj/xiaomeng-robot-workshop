@@ -1,0 +1,288 @@
+{
+  "source": "[cloud-workspace]/baselines/xiaoyun-robot-demo",
+  "fps": 30,
+  "width": 600,
+  "height": 430,
+  "fonts": [
+    {
+      "file": "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc",
+      "family": "Microsoft YaHei"
+    },
+    {
+      "file": "/usr/share/texmf/fonts/opentype/public/lm-math/latinmodern-math.otf",
+      "family": "Cambria Math"
+    }
+  ],
+  "scope": "Offline Canvas visible text ink bounds/overlap and finite primitives. 48 beat + 36 transition contact frames, actual recorded narration timestamps. No DOM, browser or automatic geometry occlusion verdict. Visual review must be separately recorded.",
+  "summaries": [
+    {
+      "topic": "coordinates",
+      "frames": 1770,
+      "seconds": 59,
+      "captured": [
+        {
+          "step": 0,
+          "beat": 0,
+          "time": 3.456
+        },
+        {
+          "step": 0,
+          "beat": 1,
+          "time": 9.468
+        },
+        {
+          "step": 0,
+          "beat": 2,
+          "time": 15
+        },
+        {
+          "step": 1,
+          "beat": 0,
+          "time": 18.93
+        },
+        {
+          "step": 1,
+          "beat": 1,
+          "time": 23.177999999999997
+        },
+        {
+          "step": 1,
+          "beat": 2,
+          "time": 28.584000000000003
+        },
+        {
+          "step": 2,
+          "beat": 0,
+          "time": 33.722
+        },
+        {
+          "step": 2,
+          "beat": 1,
+          "time": 38.522
+        },
+        {
+          "step": 2,
+          "beat": 2,
+          "time": 43.288000000000004
+        },
+        {
+          "step": 3,
+          "beat": 0,
+          "time": 47.496
+        },
+        {
+          "step": 3,
+          "beat": 1,
+          "time": 51.68
+        },
+        {
+          "step": 3,
+          "beat": 2,
+          "time": 56.775999999999996
+        }
+      ]
+    },
+    {
+      "topic": "inverse_kinematics",
+      "frames": 1743,
+      "seconds": 58.08,
+      "captured": [
+        {
+          "step": 0,
+          "beat": 0,
+          "time": 2.328
+        },
+        {
+          "step": 0,
+          "beat": 1,
+          "time": 6.795999999999999
+        },
+        {
+          "step": 0,
+          "beat": 2,
+          "time": 11.746
+        },
+        {
+          "step": 1,
+          "beat": 0,
+          "time": 16.006
+        },
+        {
+          "step": 1,
+          "beat": 1,
+          "time": 20.833999999999996
+        },
+        {
+          "step": 1,
+          "beat": 2,
+          "time": 25.87
+        },
+        {
+          "step": 2,
+          "beat": 0,
+          "time": 31.092
+        },
+        {
+          "step": 2,
+          "beat": 1,
+          "time": 36.332
+        },
+        {
+          "step": 2,
+          "beat": 2,
+          "time": 40.71
+        },
+        {
+          "step": 3,
+          "beat": 0,
+          "time": 44.936
+        },
+        {
+          "step": 3,
+          "beat": 1,
+          "time": 49.478
+        },
+        {
+          "step": 3,
+          "beat": 2,
+          "time": 55.379999999999995
+        }
+      ]
+    },
+    {
+      "topic": "pointnet",
+      "frames": 1905,
+      "seconds": 63.480000000000004,
+      "captured": [
+        {
+          "step": 0,
+          "beat": 0,
+          "time": 3.726
+        },
+        {
+          "step": 0,
+          "beat": 1,
+          "time": 9.654
+        },
+        {
+          "step": 0,
+          "beat": 2,
+          "time": 15.213999999999999
+        },
+        {
+          "step": 1,
+          "beat": 0,
+          "time": 20.288
+        },
+        {
+          "step": 1,
+          "beat": 1,
+          "time": 25.387999999999998
+        },
+        {
+          "step": 1,
+          "beat": 2,
+          "time": 30.344
+        },
+        {
+          "step": 2,
+          "beat": 0,
+          "time": 34.550000000000004
+        },
+        {
+          "step": 2,
+          "beat": 1,
+          "time": 38.562000000000005
+        },
+        {
+          "step": 2,
+          "beat": 2,
+          "time": 43.942
+        },
+        {
+          "step": 3,
+          "beat": 0,
+          "time": 49.346
+        },
+        {
+          "step": 3,
+          "beat": 1,
+          "time": 55.28
+        },
+        {
+          "step": 3,
+          "beat": 2,
+          "time": 61.263999999999996
+        }
+      ]
+    },
+    {
+      "topic": "planning",
+      "frames": 1809,
+      "seconds": 60.290000000000006,
+      "captured": [
+        {
+          "step": 0,
+          "beat": 0,
+          "time": 2.988
+        },
+        {
+          "step": 0,
+          "beat": 1,
+          "time": 8.052
+        },
+        {
+          "step": 0,
+          "beat": 2,
+          "time": 12.614
+        },
+        {
+          "step": 1,
+          "beat": 0,
+          "time": 16.732
+        },
+        {
+          "step": 1,
+          "beat": 1,
+          "time": 21.024
+        },
+        {
+          "step": 1,
+          "beat": 2,
+          "time": 25.596
+        },
+        {
+          "step": 2,
+          "beat": 0,
+          "time": 30.658
+        },
+        {
+          "step": 2,
+          "beat": 1,
+          "time": 36.558
+        },
+        {
+          "step": 2,
+          "beat": 2,
+          "time": 41.95
+        },
+        {
+          "step": 3,
+          "beat": 0,
+          "time": 46.846000000000004
+        },
+        {
+          "step": 3,
+          "beat": 1,
+          "time": 51.848000000000006
+        },
+        {
+          "step": 3,
+          "beat": 2,
+          "time": 57.718
+        }
+      ]
+    }
+  ],
+  "issues": []
+}

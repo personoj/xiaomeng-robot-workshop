@@ -32,8 +32,15 @@ export function fixedBezier(a,departure,b,arrival,target,handles){
 class DressCurve extends T.Curve{
   constructor(points){super();this.points=points;}
   getPoint(t,target=new T.Vector3()){
-    const u=1-t,weights=[u**5,5*u**4*t,10*u**3*t*t,10*u*u*t**3,5*u*t**4,t**5];
-    target.set(0,0,0);for(let i=0;i<6;i++)target.addScaledVector(this.points[i],weights[i]);return target;
+    // Bernstein weights without an allocation or repeated general powers per
+    // sample. Curve fitting and collision sampling use the same six controls.
+    const u=1-t,u2=u*u,t2=t*t,u3=u2*u,t3=t2*t;
+    target.copy(this.points[0]).multiplyScalar(u3*u2);
+    target.addScaledVector(this.points[1],5*u2*u2*t);
+    target.addScaledVector(this.points[2],10*u3*t2);
+    target.addScaledVector(this.points[3],10*u2*t3);
+    target.addScaledVector(this.points[4],5*u*t2*t2);
+    return target.addScaledVector(this.points[5],t3*t2);
   }
 }
 export function fixedDressCurve(a,departure,b,arrival,target,outward,handle=.28){
@@ -83,7 +90,11 @@ function segmentDistance(a,b,c,d){
   return dr.addScaledVector(d1,s).addScaledVector(d2,-t).length();
 }
 function nearSegments(a,b,c,d,r){
-  for(const axis of ['x','y','z'])if(Math.min(a[axis],b[axis])>Math.max(c[axis],d[axis])+r||Math.min(c[axis],d[axis])>Math.max(a[axis],b[axis])+r)return false;
+  // Keep the same conservative AABB rejection, without dynamic property
+  // lookups in the innermost (every cable-segment pair) collision loop.
+  if(Math.min(a.x,b.x)>Math.max(c.x,d.x)+r||Math.min(c.x,d.x)>Math.max(a.x,b.x)+r)return false;
+  if(Math.min(a.y,b.y)>Math.max(c.y,d.y)+r||Math.min(c.y,d.y)>Math.max(a.y,b.y)+r)return false;
+  if(Math.min(a.z,b.z)>Math.max(c.z,d.z)+r||Math.min(c.z,d.z)>Math.max(a.z,b.z)+r)return false;
   return segmentDistance(a,b,c,d)<r;
 }
 export function createCableCollisionModel({root,arm,links,spool,feeder,torch}){

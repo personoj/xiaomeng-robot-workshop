@@ -1,6 +1,7 @@
 /** Independent meters. Inactive / expired telemetry never impersonates live speech. */
 export class AudioActivity {
-  constructor() {
+  constructor(onChange = () => {}) {
+    this.onChange = onChange;
     this.reset();
   }
   reset() {
@@ -8,6 +9,7 @@ export class AudioActivity {
     this.output = { level: 0, until: 0 };
     this.text = "";
     this.textUntil = 0;
+    this.onChange();
   }
   update(event, now = performance.now()) {
     if (
@@ -24,11 +26,13 @@ export class AudioActivity {
     };
     if (event.channel === "input" && typeof event.text === "string")
       this.transcript(event.text, now);
+    this.onChange();
     return true;
   }
   transcript(text, now = performance.now()) {
     this.text = String(text).trim().slice(0, 180);
     this.textUntil = now + 6500;
+    this.onChange();
   }
   sample(now = performance.now()) {
     return {
@@ -41,7 +45,10 @@ export class AudioActivity {
 
 export class VoiceVisuals {
   constructor(canvas, bars, caption) {
-    this.activity = new AudioActivity();
+    this.frame = null;
+    this.expiryTimer = null;
+    this.disposed = false;
+    this.activity = new AudioActivity(() => this.requestFrame());
     this.canvas = canvas;
     this.context = canvas.getContext("2d");
     this.bars = [...bars.children];
@@ -60,11 +67,20 @@ export class VoiceVisuals {
       this.width = r.width;
       this.height = r.height;
       this.waveDirty=true;
+      this.requestFrame();
     });
     this.resize.observe(canvas);
-    this.frame = requestAnimationFrame((t) => this.draw(t));
+    this.requestFrame();
+  }
+  requestFrame() {
+    if (this.disposed) return;
+    clearTimeout(this.expiryTimer);
+    this.expiryTimer = null;
+    if (this.frame === null) this.frame = requestAnimationFrame((t) => this.draw(t));
   }
   draw(now) {
+    this.frame = null;
+    if (this.disposed) return;
     const state = this.activity.sample(now),
       dt = Math.min((now - this.last) / 1000, 0.05);
     this.last = now;
@@ -115,9 +131,14 @@ export class VoiceVisuals {
     const text =
       state.text || (state.input > 0.025 ? "正在听你说…" : "");
     if (this.caption.textContent !== text) this.caption.textContent = text;
-    this.frame = requestAnimationFrame((t) => this.draw(t));
+    // Telemetry wakes the meter. Keep every animation frame while levels are
+    // active/decaying, then sleep; a transcript needs only its actual expiry.
+    if (this.output > 0 || this.input > 0 || state.output > 0 || state.input > 0) this.requestFrame();
+    else if (state.text) this.expiryTimer = setTimeout(() => this.requestFrame(), Math.max(0, this.activity.textUntil - now));
   }
   dispose() {
+    this.disposed = true;
+    clearTimeout(this.expiryTimer);
     cancelAnimationFrame(this.frame);
     this.resize.disconnect();
   }
