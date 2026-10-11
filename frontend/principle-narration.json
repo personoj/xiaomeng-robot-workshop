@@ -1,0 +1,565 @@
+{
+  "version": 1,
+  "voice": "longanqian_v3.1",
+  "model": "qwen-audio-3.1-realtime-plus",
+  "sampleRate": 24000,
+  "status": "recorded",
+  "topics": {
+    "coordinates": {
+      "steps": [
+        {
+          "beats": [
+            {
+              "text": "看橙色焊点，它没有移动，但相机和机器人的参照原点并不相同。",
+              "seconds": 5.76,
+              "samples": 138240,
+              "transcript": "看橙色焊点，它没有移动，但相机和机器人的参照原点并不相同。",
+              "transcriptVerified": true,
+              "start": 0.0
+            },
+            {
+              "text": "从不同原点出发，沿各自方向量位置，同一个点就有了不同坐标。",
+              "seconds": 6.18,
+              "samples": 148320,
+              "transcript": "从不同原点出发，沿各自方向量位置，同一个点就有了不同坐标。",
+              "transcriptVerified": true,
+              "start": 5.76
+            },
+            {
+              "text": "所以坐标必须带上参照系，蓝色是世界，橙色是相机。",
+              "seconds": 5.1,
+              "samples": 122400,
+              "transcript": "所以坐标必须带上参照系，蓝色是世界，橙色是相机。",
+              "transcriptVerified": true,
+              "start": 11.94
+            }
+          ],
+          "speech": "看橙色焊点，它没有移动，但相机和机器人的参照原点并不相同。从不同原点出发，沿各自方向量位置，同一个点就有了不同坐标。所以坐标必须带上参照系，蓝色是世界，橙色是相机。",
+          "seconds": 17.04,
+          "samples": 408960,
+          "audio": "/principles/audio/coordinates-0.wav",
+          "start": 0.0
+        },
+        {
+          "beats": [
+            {
+              "text": "先只看方向，把两个原点暂时放到一起。",
+              "seconds": 3.15,
+              "samples": 75600,
+              "transcript": "先只看方向，把两个原点暂时放到一起。",
+              "transcriptVerified": true,
+              "start": 0.0
+            },
+            {
+              "text": "转动这根箭头，就是把相机里的方向换成世界里的方向。",
+              "seconds": 4.98,
+              "samples": 119520,
+              "transcript": "转动这根箭头，就是把相机里的方向换成世界里的方向。",
+              "transcriptVerified": true,
+              "start": 3.15
+            },
+            {
+              "text": "注意，箭头只改变方向，长度始终不变；实际焊点并没有转动。",
+              "seconds": 5.69,
+              "samples": 136560,
+              "transcript": "注意，箭头只改变方向，长度始终不变；实际焊点并没有转动。",
+              "transcriptVerified": true,
+              "start": 8.13
+            }
+          ],
+          "speech": "先只看方向，把两个原点暂时放到一起。转动这根箭头，就是把相机里的方向换成世界里的方向。注意，箭头只改变方向，长度始终不变；实际焊点并没有转动。",
+          "seconds": 13.82,
+          "samples": 331680,
+          "audio": "/principles/audio/coordinates-1.wav",
+          "start": 17.04
+        },
+        {
+          "beats": [
+            {
+              "text": "方向换好以后，还缺相机原点相对世界原点的偏移。",
+              "seconds": 4.77,
+              "samples": 114480,
+              "transcript": "方向换好以后，还缺相机原点相对世界原点的偏移。",
+              "transcriptVerified": true,
+              "start": 0.0
+            },
+            {
+              "text": "把偏移箭头与换好方向的箭头首尾接起来，两段就能相加。",
+              "seconds": 4.82,
+              "samples": 115680,
+              "transcript": "把偏移箭头与换好方向的箭头首尾接起来，两段就能相加。",
+              "transcriptVerified": true,
+              "start": 4.77
+            },
+            {
+              "text": "现在，从世界原点出发，也准确到达了同一个焊点。",
+              "seconds": 4.73,
+              "samples": 113520,
+              "transcript": "现在，从世界原点出发，也准确到达了同一个焊点。",
+              "transcriptVerified": true,
+              "start": 9.59
+            }
+          ],
+          "speech": "方向换好以后，还缺相机原点相对世界原点的偏移。把偏移箭头与换好方向的箭头首尾接起来，两段就能相加。现在，从世界原点出发，也准确到达了同一个焊点。",
+          "seconds": 14.32,
+          "samples": 343680,
+          "audio": "/principles/audio/coordinates-2.wav",
+          "start": 30.86
+        },
+        {
+          "beats": [
+            {
+              "text": "实际使用时，先把相机测到的位置换到世界坐标。",
+              "seconds": 3.86,
+              "samples": 92640,
+              "transcript": "实际使用时，先把相机测到的位置换到世界坐标。",
+              "transcriptVerified": true,
+              "start": 0.0
+            },
+            {
+              "text": "再换到机械臂基座，机械臂才知道这个点相对自己在哪里。",
+              "seconds": 4.4,
+              "samples": 105600,
+              "transcript": "再换到机械臂基座，机械臂才知道这个点相对自己在哪里。",
+              "transcriptVerified": true,
+              "start": 3.86
+            },
+            {
+              "text": "这些关系需要提前标定；矩阵从右往左依次作用，不能随意换序。",
+              "seconds": 5.56,
+              "samples": 133440,
+              "transcript": "这些关系需要提前标定；矩阵从右往左依次作用，不能随意换序。",
+              "transcriptVerified": true,
+              "start": 8.26
+            }
+          ],
+          "speech": "实际使用时，先把相机测到的位置换到世界坐标。再换到机械臂基座，机械臂才知道这个点相对自己在哪里。这些关系需要提前标定；矩阵从右往左依次作用，不能随意换序。",
+          "seconds": 13.82,
+          "samples": 331680,
+          "audio": "/principles/audio/coordinates-3.wav",
+          "start": 45.18
+        }
+      ],
+      "seconds": 59.0,
+      "samples": 1416000,
+      "audio": "/principles/audio/coordinates.wav"
+    },
+    "inverse_kinematics": {
+      "steps": [
+        {
+          "beats": [
+            {
+              "text": "先看这两根连杆：关节在转，杆长始终不变。",
+              "seconds": 3.88,
+              "samples": 93120,
+              "transcript": "先看这两根连杆，关节在转，杆长始终不变。",
+              "transcriptVerified": true,
+              "start": 0.0
+            },
+            {
+              "text": "第一个角决定大臂方向，第二个角是在大臂方向上再转多少。",
+              "seconds": 4.86,
+              "samples": 116640,
+              "transcript": "第一个角决定大臂方向，第二个角是在大臂方向上再转多少。",
+              "transcriptVerified": true,
+              "start": 3.88
+            },
+            {
+              "text": "把两根杆的横向、纵向投影相加，就能由关节角算出末端位置。",
+              "seconds": 5.01,
+              "samples": 120240,
+              "transcript": "把两根杆的横向、纵向投影相加，就能由关节角算出末端位置。",
+              "transcriptVerified": true,
+              "start": 8.74
+            }
+          ],
+          "speech": "先看这两根连杆：关节在转，杆长始终不变。第一个角决定大臂方向，第二个角是在大臂方向上再转多少。把两根杆的横向、纵向投影相加，就能由关节角算出末端位置。",
+          "seconds": 13.75,
+          "samples": 330000,
+          "audio": "/principles/audio/inverse_kinematics-0.wav",
+          "start": 0.0
+        },
+        {
+          "beats": [
+            {
+              "text": "反过来，橙色目标固定了，该让关节怎样转？",
+              "seconds": 3.76,
+              "samples": 90240,
+              "transcript": "反过来，橙色目标固定了，该让关节怎样转？",
+              "transcriptVerified": true,
+              "start": 0.0
+            },
+            {
+              "text": "先看这根虚线箭头，它从当前末端指向目标，表示还差多远。",
+              "seconds": 5.54,
+              "samples": 132960,
+              "transcript": "先看这根虚线箭头，它从当前末端指向目标，表示还差多远。",
+              "transcriptVerified": true,
+              "start": 3.76
+            },
+            {
+              "text": "缩小差距要靠两个关节配合转动，不能把杆拉长。",
+              "seconds": 4.7,
+              "samples": 112800,
+              "transcript": "缩小差距要靠两个关节配合转动，不能把杆拉长。",
+              "transcriptVerified": true,
+              "start": 9.3
+            }
+          ],
+          "speech": "反过来，橙色目标固定了，该让关节怎样转？先看这根虚线箭头，它从当前末端指向目标，表示还差多远。缩小差距要靠两个关节配合转动，不能把杆拉长。",
+          "seconds": 14.0,
+          "samples": 336000,
+          "audio": "/principles/audio/inverse_kinematics-1.wav",
+          "start": 13.75
+        },
+        {
+          "beats": [
+            {
+              "text": "雅可比矩阵告诉我们：当前姿态下，关节动一点，末端往哪儿动。",
+              "seconds": 5.57,
+              "samples": 133680,
+              "transcript": "雅可比矩阵告诉我们：当前姿态下，关节动一点，末端往哪儿动。",
+              "transcriptVerified": true,
+              "start": 0.0
+            },
+            {
+              "text": "据此小步修正，再量一次误差，这个例子就逐渐靠近目标。",
+              "seconds": 5.02,
+              "samples": 120480,
+              "transcript": "据此小步修正，再量一次误差，这个例子就逐渐靠近目标。",
+              "transcriptVerified": true,
+              "start": 5.57
+            },
+            {
+              "text": "这是附近的小变化近似，每走一步都要重新计算。",
+              "seconds": 3.95,
+              "samples": 94800,
+              "transcript": "这是附近的小变化近似，每走一步都要重新计算。",
+              "transcriptVerified": true,
+              "start": 10.59
+            }
+          ],
+          "speech": "雅可比矩阵告诉我们：当前姿态下，关节动一点，末端往哪儿动。据此小步修正，再量一次误差，这个例子就逐渐靠近目标。这是附近的小变化近似，每走一步都要重新计算。",
+          "seconds": 14.54,
+          "samples": 348960,
+          "audio": "/principles/audio/inverse_kinematics-2.wav",
+          "start": 27.75
+        },
+        {
+          "beats": [
+            {
+              "text": "看这两个肘部姿态，末端到达同一点，答案却不止一个。",
+              "seconds": 4.41,
+              "samples": 105840,
+              "transcript": "看这两个肘部姿态，末端到达同一点，答案却不止一个。",
+              "transcriptVerified": true,
+              "start": 0.0
+            },
+            {
+              "text": "理想两连杆只能到达这个圆环，太远或太近都不行。",
+              "seconds": 4.63,
+              "samples": 111120,
+              "transcript": "理想两连杆只能到达这个圆环，太远或太近都不行。",
+              "transcriptVerified": true,
+              "start": 4.41
+            },
+            {
+              "text": "真正焊接时，还要检查关节限位、焊枪朝向、碰撞和管线，能到并不等于能用。",
+              "seconds": 6.75,
+              "samples": 162000,
+              "transcript": "真正焊接时，还要检查关节限位、焊枪朝向、碰撞和管线，能到并不等于能用。",
+              "transcriptVerified": true,
+              "start": 9.04
+            }
+          ],
+          "speech": "看这两个肘部姿态，末端到达同一点，答案却不止一个。理想两连杆只能到达这个圆环，太远或太近都不行。真正焊接时，还要检查关节限位、焊枪朝向、碰撞和管线，能到并不等于能用。",
+          "seconds": 15.79,
+          "samples": 378960,
+          "audio": "/principles/audio/inverse_kinematics-3.wav",
+          "start": 42.29
+        }
+      ],
+      "seconds": 58.08,
+      "samples": 1393920,
+      "audio": "/principles/audio/inverse_kinematics.wav"
+    },
+    "pointnet": {
+      "steps": [
+        {
+          "beats": [
+            {
+              "text": "看这些散点，它们组成了两段管道；这里用合成点云演示原理。",
+              "seconds": 6.21,
+              "samples": 149040,
+              "transcript": "看这些散点，它们组成了两段管道；这里用合成点云演示原理。",
+              "transcriptVerified": true,
+              "start": 0.0
+            },
+            {
+              "text": "点不像像素那样排成网格，重新编号也不会改变管道形状。",
+              "seconds": 5.74,
+              "samples": 137760,
+              "transcript": "点不像像素那样排成网格，重新编号也不会改变管道形状。",
+              "transcriptVerified": true,
+              "start": 6.21
+            },
+            {
+              "text": "网络先观察附近的小群点，再逐层扩大范围，理解更大的结构。",
+              "seconds": 5.44,
+              "samples": 130560,
+              "transcript": "网络先观察附近的小群点，再逐层扩大范围，理解更大的结构。",
+              "transcriptVerified": true,
+              "start": 11.95
+            }
+          ],
+          "speech": "看这些散点，它们组成了两段管道；这里用合成点云演示原理。点不像像素那样排成网格，重新编号也不会改变管道形状。网络先观察附近的小群点，再逐层扩大范围，理解更大的结构。",
+          "seconds": 17.39,
+          "samples": 417360,
+          "audio": "/principles/audio/pointnet-0.wav",
+          "start": 0.0
+        },
+        {
+          "beats": [
+            {
+              "text": "第一步，先选一个观察中心，再让新的中心尽量铺开。",
+              "seconds": 4.83,
+              "samples": 115920,
+              "transcript": "第一步，先选一个观察中心，再让新的中心尽量铺开。",
+              "transcriptVerified": true,
+              "start": 0.0
+            },
+            {
+              "text": "每个候选点先找最近的已选中心，再选这些距离里最大的那个。",
+              "seconds": 5.28,
+              "samples": 126720,
+              "transcript": "每个候选点先找最近的已选中心，再选这些距离里最大的那个。",
+              "transcriptVerified": true,
+              "start": 4.83
+            },
+            {
+              "text": "这叫最远点采样，目的是补足覆盖，还不是在识别焊缝。",
+              "seconds": 4.74,
+              "samples": 113760,
+              "transcript": "这叫最远点采样，目的是补足覆盖，还不是在识别焊缝。",
+              "transcriptVerified": true,
+              "start": 10.11
+            }
+          ],
+          "speech": "第一步，先选一个观察中心，再让新的中心尽量铺开。每个候选点先找最近的已选中心，再选这些距离里最大的那个。这叫最远点采样，目的是补足覆盖，还不是在识别焊缝。",
+          "seconds": 14.85,
+          "samples": 356400,
+          "audio": "/principles/audio/pointnet-1.wav",
+          "start": 17.39
+        },
+        {
+          "beats": [
+            {
+              "text": "以中心画一个球，半径以内的点就组成它的邻域。",
+              "seconds": 3.85,
+              "samples": 92400,
+              "transcript": "以中心画一个球，半径以内的点就组成它的邻域。",
+              "transcriptVerified": true,
+              "start": 0.0
+            },
+            {
+              "text": "这里比较三维距离，屏幕上挨得近，空间里未必近。",
+              "seconds": 4.12,
+              "samples": 98880,
+              "transcript": "这里比较三维距离，屏幕上挨得近，空间里未必近。",
+              "transcriptVerified": true,
+              "start": 3.85
+            },
+            {
+              "text": "半径小看细节，半径大看更多结构；稀疏区域的邻居也会更少。",
+              "seconds": 6.22,
+              "samples": 149280,
+              "transcript": "半径小看细节，半径大看更多结构；稀疏区域的邻居也会更少。",
+              "transcriptVerified": true,
+              "start": 7.97
+            }
+          ],
+          "speech": "以中心画一个球，半径以内的点就组成它的邻域。这里比较三维距离，屏幕上挨得近，空间里未必近。半径小看细节，半径大看更多结构；稀疏区域的邻居也会更少。",
+          "seconds": 14.19,
+          "samples": 340560,
+          "audio": "/principles/audio/pointnet-2.wav",
+          "start": 32.24
+        },
+        {
+          "beats": [
+            {
+              "text": "把邻居位置减去中心位置，得到相对坐标，再送入同一套小网络。",
+              "seconds": 4.86,
+              "samples": 116640,
+              "transcript": "把邻居位置减去中心位置，得到相对坐标，再送入同一套小网络。",
+              "transcriptVerified": true,
+              "start": 0.0
+            },
+            {
+              "text": "每个特征通道各取最大响应，汇成向量，点的顺序就不影响这次汇聚。",
+              "seconds": 6.65,
+              "samples": 159600,
+              "transcript": "每个特征通道各取最大响应，汇成向量，点的顺序就不影响这次汇聚。",
+              "transcriptVerified": true,
+              "start": 4.86
+            },
+            {
+              "text": "下一层继续组合局部特征；这里展示结构，并未运行训练好的识别网络。",
+              "seconds": 5.54,
+              "samples": 132960,
+              "transcript": "下一层继续组合局部特征；这里展示结构，并未运行训练好的识别网络。",
+              "transcriptVerified": true,
+              "start": 11.51
+            }
+          ],
+          "speech": "把邻居位置减去中心位置，得到相对坐标，再送入同一套小网络。每个特征通道各取最大响应，汇成向量，点的顺序就不影响这次汇聚。下一层继续组合局部特征；这里展示结构，并未运行训练好的识别网络。",
+          "seconds": 17.05,
+          "samples": 409200,
+          "audio": "/principles/audio/pointnet-3.wav",
+          "start": 46.43
+        }
+      ],
+      "seconds": 63.48,
+      "samples": 1523520,
+      "audio": "/principles/audio/pointnet.wav"
+    },
+    "planning": {
+      "steps": [
+        {
+          "beats": [
+            {
+              "text": "起点终点都安全，直接连成直线，途中却可能撞上障碍。",
+              "seconds": 4.98,
+              "samples": 119520,
+              "transcript": "起点终点都安全，直接连成直线，途中却可能撞上障碍。",
+              "transcriptVerified": true,
+              "start": 0.0
+            },
+            {
+              "text": "这个圆盘代表简化的机器人，它有体积，不能只检查中心点。",
+              "seconds": 5.12,
+              "samples": 122880,
+              "transcript": "这个圆盘代表简化的机器人，它有体积，不能只检查中心点。",
+              "transcriptVerified": true,
+              "start": 4.98
+            },
+            {
+              "text": "因此要检查整段经过的位置，不能只看两端。",
+              "seconds": 4.19,
+              "samples": 100560,
+              "transcript": "因此要检查整段经过的位置，不能只看两端。",
+              "transcriptVerified": true,
+              "start": 10.1
+            }
+          ],
+          "speech": "起点终点都安全，直接连成直线，途中却可能撞上障碍。这个圆盘代表简化的机器人，它有体积，不能只检查中心点。因此要检查整段经过的位置，不能只看两端。",
+          "seconds": 14.29,
+          "samples": 342960,
+          "audio": "/principles/audio/planning-0.wav",
+          "start": 0.0
+        },
+        {
+          "beats": [
+            {
+              "text": "一种简化办法，是把障碍向外扩张一个圆盘半径。",
+              "seconds": 4.07,
+              "samples": 97680,
+              "transcript": "一种简化办法，是把障碍向外扩张一个圆盘半径。",
+              "transcriptVerified": true,
+              "start": 0.0
+            },
+            {
+              "text": "再多留一点间隙，橙色边界就成为中心不能进入的范围。",
+              "seconds": 4.44,
+              "samples": 106560,
+              "transcript": "再多留一点间隙，橙色边界就成为中心不能进入的范围。",
+              "transcriptVerified": true,
+              "start": 4.07
+            },
+            {
+              "text": "障碍并没真的长大，我们只是把物体大小提前算进了地图。",
+              "seconds": 4.66,
+              "samples": 111840,
+              "transcript": "障碍并没真的长大，我们只是把物体大小提前算进了地图。",
+              "transcriptVerified": true,
+              "start": 8.51
+            }
+          ],
+          "speech": "一种简化办法，是把障碍向外扩张一个圆盘半径。再多留一点间隙，橙色边界就成为中心不能进入的范围。障碍并没真的长大，我们只是把物体大小提前算进了地图。",
+          "seconds": 13.17,
+          "samples": 316080,
+          "audio": "/principles/audio/planning-1.wav",
+          "start": 14.29
+        },
+        {
+          "beats": [
+            {
+              "text": "接下来搜索网格，亮起的是计算中的候选位置，机器人还没有走。",
+              "seconds": 5.33,
+              "samples": 127920,
+              "transcript": "接下来搜索网格，亮起的是计算中的候选位置，机器人还没有走。",
+              "transcriptVerified": true,
+              "start": 0.0
+            },
+            {
+              "text": "每个候选点比较两项：到这里已知的路径长度，加上到目标的距离估计。",
+              "seconds": 6.28,
+              "samples": 150720,
+              "transcript": "每个候选点比较两项：到这里已知的路径长度，加上到目标的距离估计。",
+              "transcriptVerified": true,
+              "start": 5.33
+            },
+            {
+              "text": "优先检查总和较小的位置，就能逐步找到当前网格里的通路。",
+              "seconds": 4.8,
+              "samples": 115200,
+              "transcript": "优先检查总和较小的位置，就能逐步找到当前网格里的通路。",
+              "transcriptVerified": true,
+              "start": 11.61
+            }
+          ],
+          "speech": "接下来搜索网格，亮起的是计算中的候选位置，机器人还没有走。每个候选点比较两项：到这里已知的路径长度，加上到目标的距离估计。优先检查总和较小的位置，就能逐步找到当前网格里的通路。",
+          "seconds": 16.41,
+          "samples": 393840,
+          "audio": "/principles/audio/planning-2.wav",
+          "start": 27.46
+        },
+        {
+          "beats": [
+            {
+              "text": "找到折线后，可以尝试把较远的路径点直接连接，少绕一些。",
+              "seconds": 4.96,
+              "samples": 119040,
+              "transcript": "找到折线后，可以尝试把较远的路径点直接连接，少绕一些。",
+              "transcriptVerified": true,
+              "start": 0.0
+            },
+            {
+              "text": "但每条新线段都要重新检查，保证整段移动始终留有间隙。",
+              "seconds": 5.03,
+              "samples": 120720,
+              "transcript": "但每条新线段都要重新检查，保证整段移动始终留有间隙。",
+              "transcriptVerified": true,
+              "start": 4.96
+            },
+            {
+              "text": "真正执行时，还要检查全部连杆、焊枪和管线，并满足关节与速度限制。",
+              "seconds": 6.43,
+              "samples": 154320,
+              "transcript": "真正执行时，还要检查全部连杆、焊枪和管线，并满足关节与速度限制。",
+              "transcriptVerified": true,
+              "start": 9.99
+            }
+          ],
+          "speech": "找到折线后，可以尝试把较远的路径点直接连接，少绕一些。但每条新线段都要重新检查，保证整段移动始终留有间隙。真正执行时，还要检查全部连杆、焊枪和管线，并满足关节与速度限制。",
+          "seconds": 16.42,
+          "samples": 394080,
+          "audio": "/principles/audio/planning-3.wav",
+          "start": 43.87
+        }
+      ],
+      "seconds": 60.29,
+      "samples": 1446960,
+      "audio": "/principles/audio/planning.wav"
+    }
+  }
+}

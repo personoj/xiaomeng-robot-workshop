@@ -1,0 +1,24 @@
+Use case: precise UI mockup edit.
+Create ONE updated high-fidelity Chinese desktop web application reference from the supplied previous mockup. Preserve its canvas size, three-column layout, light colors, typography family, softly rounded panels and restrained product styling.
+
+ABSOLUTE INVARIANT: Leave the entire CENTRAL robot panel visually unchanged. Keep its title "机械臂工作区", exact Franka Panda robot appearance and pose, table shape, red cube on blue cube, camera angle, lighting, shadows, scale and framing. Do not move, re-render, stretch or replace the robot scene. The user wants only peripheral UI edits.
+
+REMOVE EVERY XIAOYUN MASCOT / FACE / AVATAR from the entire image, including the black blob logo in the top-left header and the small face at the bottom of the left panel. No substitute character, head, eyes, robot portrait or avatar. Keep "小云" as a text-only brand in the header, followed by divider and "机器人演示". Preserve the upper-right green dot "已连接" and settings gear.
+
+LEFT PANEL — voice instruction, no task menu:
+Keep the readable title "语音交互". Preserve the attractive periwinkle flowing ribbon and subtle dot-grid decorative language that the user likes, but shorten the decoration to occupy only the upper/middle part of the panel, leaving room for useful content below. Do not fill the whole panel with decoration.
+Under it add the section heading "本次指令", a discreet microphone line icon, and this exact readable spoken instruction, generously spaced over 2-3 lines:
+“把红色方块放到蓝色方块上。”
+Below this quote, use two modest semantic cube icons connected with a slim arrow: red cube "红色方块" → blue cube "蓝色方块". These are small information-card illustrations, not additional objects in the central scene. At bottom, a quiet small pulse-line motif and "等待下一步指令" in normal readable body text, without any face/avatar/assistant identity card.
+Keep strong hierarchy and breathing room; no dense paragraphs or tiny copy. Do not display the three predefined tasks or feature names.
+
+UPPER RIGHT — preserve execution progress:
+Retain "执行过程", the four completed green-check rows "对准目标", "抓取方块", "移动至目标", "放置验证", and a compact "任务完成" success footer. They reflect this just-completed instruction. Keep large readable labels, no eight-row tiny text, no extra metrics.
+
+BOTTOM RIGHT — motion trajectory AND outcome verification:
+Replace the old "本次指令" card entirely. New heading "运动轨迹" with an understated path icon.
+Below it draw a clean minimal TOP-DOWN trajectory mini-map: a very light coordinate grid WITHOUT numeric axis ticks; a small red origin point toward the lower left labelled "起点"; a small blue target square toward the upper right labelled "目标"; a smooth restrained lavender path connecting them, with a few small waypoint dots and one directional cue. This is a compact spatial trajectory diagram, not a time-series chart, speed chart or fake analytics dashboard. It should look like sampled robot/object movement in a tabletop workspace. Use readable labels and lots of clean space around the line.
+Below the mini-map, a subtle divider then TWO clean green check indicators with exact labels "到达目标" and "放置稳定". The checks are the outcome verification; no invented confidence, percentages, scores, latency, model names or extra paragraphs. Fit the map plus these two checks comfortably within the bottom-right card; adjust only the relative height of the two right-side cards if needed.
+
+Style: credible implementable elegant web UI, white and cool off-white, charcoal Chinese text, muted lavender decorative lines, restrained mint feedback, subtle boundaries, balanced whitespace. Section titles about 24-28px and body labels about 20-22px at this canvas size. Do not reintroduce tiny gray text.
+No manual start/stop/pause/reset buttons, playback slider, task menu, large call-to-action or visible task presets. No mascot anywhere. No changes inside the central robot scene. No browser chrome, perspective device frame, comparison collage, design callouts or watermark. This is the AFTER-COMPLETION state: current instruction, actual-process style steps and verification are visible only because a voice request has already been received.

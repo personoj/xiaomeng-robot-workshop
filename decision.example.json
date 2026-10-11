@@ -1,0 +1,5 @@
+{
+  "model": "decision-model-preview",
+  "endpoint": "https://trial.cn-beijing.maas.aliyuncs.com/compatible-mode/v1/systemone",
+  "key_file": ".local/decision-key.txt"
+}

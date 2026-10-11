@@ -1,0 +1,50 @@
+{
+  "frames": 721,
+  "maxIndependentLengthErrorMetres": 0.00004250749478074134,
+  "maxConnectorErrorMetres": 4.972820174300706e-16,
+  "minBendRadiusMetres": {
+    "corrugated-main-hose": 0.3365981200877374,
+    "red-supply-hose": 0.06516321632810854,
+    "wire-feed-guide": 0.03727810259358946
+  },
+  "totalMs": 6044.9835,
+  "rejected": [
+    {
+      "pose": [
+        150,
+        -62,
+        -62,
+        0,
+        -90,
+        0
+      ],
+      "reason": "主波纹管弯曲过急"
+    },
+    {
+      "pose": [
+        0,
+        120,
+        -62,
+        0,
+        -90,
+        0
+      ],
+      "reason": "红色供给管：固定线长不足，不能继续拉伸"
+    },
+    {
+      "pose": [
+        0,
+        -62,
+        210,
+        0,
+        -90,
+        0
+      ],
+      "reason": "送丝线：固定线长不足，不能继续拉伸"
+    }
+  ],
+  "letteringWithinDisc": true,
+  "mountingSurfaceWithinGasket": true,
+  "maxMountSurfaceDepthMetres": 0.002000894188880914,
+  "scope": "24-second six-axis cycle at 30Hz, with <=0.5deg angular substeps. Fixed-length quasi-static curves, capsule/triangle and mesh collisions; not a material-dynamics certification."
+}

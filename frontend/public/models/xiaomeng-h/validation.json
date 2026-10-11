@@ -1,0 +1,636 @@
+{
+  "revision": 6,
+  "panelValidation": "pipe-panel-validation.json",
+  "joints": [
+    "J1",
+    "J2",
+    "J3",
+    "J4",
+    "J5",
+    "J6"
+  ],
+  "cableChecks": [
+    {
+      "pose": [
+        0,
+        -62,
+        -62,
+        0,
+        -90,
+        0
+      ],
+      "name": "red-supply-hose",
+      "end": 0,
+      "attachmentErrorMetres": 2.220446049250313e-16
+    },
+    {
+      "pose": [
+        0,
+        -62,
+        -62,
+        0,
+        -90,
+        0
+      ],
+      "name": "red-supply-hose",
+      "end": 1,
+      "attachmentErrorMetres": 6.206335383118183e-17
+    },
+    {
+      "pose": [
+        0,
+        -62,
+        -62,
+        0,
+        -90,
+        0
+      ],
+      "name": "wire-feed-guide",
+      "end": 0,
+      "attachmentErrorMetres": 0
+    },
+    {
+      "pose": [
+        0,
+        -62,
+        -62,
+        0,
+        -90,
+        0
+      ],
+      "name": "wire-feed-guide",
+      "end": 1,
+      "attachmentErrorMetres": 2.2888491377299405e-16
+    },
+    {
+      "pose": [
+        0,
+        -62,
+        -62,
+        0,
+        -90,
+        0
+      ],
+      "name": "corrugated-main-hose",
+      "end": 0,
+      "attachmentErrorMetres": 2.3714374201337736e-16
+    },
+    {
+      "pose": [
+        0,
+        -62,
+        -62,
+        0,
+        -90,
+        0
+      ],
+      "name": "corrugated-main-hose",
+      "end": 1,
+      "attachmentErrorMetres": 0
+    },
+    {
+      "pose": [
+        20,
+        -50,
+        -72,
+        20,
+        -80,
+        35
+      ],
+      "name": "red-supply-hose",
+      "end": 0,
+      "attachmentErrorMetres": 2.7755575615628914e-17
+    },
+    {
+      "pose": [
+        20,
+        -50,
+        -72,
+        20,
+        -80,
+        35
+      ],
+      "name": "red-supply-hose",
+      "end": 1,
+      "attachmentErrorMetres": 6.206335383118183e-17
+    },
+    {
+      "pose": [
+        20,
+        -50,
+        -72,
+        20,
+        -80,
+        35
+      ],
+      "name": "wire-feed-guide",
+      "end": 0,
+      "attachmentErrorMetres": 0
+    },
+    {
+      "pose": [
+        20,
+        -50,
+        -72,
+        20,
+        -80,
+        35
+      ],
+      "name": "wire-feed-guide",
+      "end": 1,
+      "attachmentErrorMetres": 2.2247786310271853e-16
+    },
+    {
+      "pose": [
+        20,
+        -50,
+        -72,
+        20,
+        -80,
+        35
+      ],
+      "name": "corrugated-main-hose",
+      "end": 0,
+      "attachmentErrorMetres": 0
+    },
+    {
+      "pose": [
+        20,
+        -50,
+        -72,
+        20,
+        -80,
+        35
+      ],
+      "name": "corrugated-main-hose",
+      "end": 1,
+      "attachmentErrorMetres": 0
+    },
+    {
+      "pose": [
+        -20,
+        -72,
+        -48,
+        -20,
+        -105,
+        -35
+      ],
+      "name": "red-supply-hose",
+      "end": 0,
+      "attachmentErrorMetres": 1.3877787807814457e-17
+    },
+    {
+      "pose": [
+        -20,
+        -72,
+        -48,
+        -20,
+        -105,
+        -35
+      ],
+      "name": "red-supply-hose",
+      "end": 1,
+      "attachmentErrorMetres": 6.206335383118183e-17
+    },
+    {
+      "pose": [
+        -20,
+        -72,
+        -48,
+        -20,
+        -105,
+        -35
+      ],
+      "name": "wire-feed-guide",
+      "end": 0,
+      "attachmentErrorMetres": 5.551115123125783e-17
+    },
+    {
+      "pose": [
+        -20,
+        -72,
+        -48,
+        -20,
+        -105,
+        -35
+      ],
+      "name": "wire-feed-guide",
+      "end": 1,
+      "attachmentErrorMetres": 1.6883057536160649e-16
+    },
+    {
+      "pose": [
+        -20,
+        -72,
+        -48,
+        -20,
+        -105,
+        -35
+      ],
+      "name": "corrugated-main-hose",
+      "end": 0,
+      "attachmentErrorMetres": 5.551115123125783e-17
+    },
+    {
+      "pose": [
+        -20,
+        -72,
+        -48,
+        -20,
+        -105,
+        -35
+      ],
+      "name": "corrugated-main-hose",
+      "end": 1,
+      "attachmentErrorMetres": 0
+    }
+  ],
+  "portDirectionChecks": [
+    {
+      "pose": [
+        0,
+        -62,
+        -62,
+        0,
+        -90,
+        0
+      ],
+      "name": "red-supply-hose",
+      "end": 0,
+      "alignment": 0.9999999993492658
+    },
+    {
+      "pose": [
+        0,
+        -62,
+        -62,
+        0,
+        -90,
+        0
+      ],
+      "name": "red-supply-hose",
+      "end": 1,
+      "alignment": 0.9999999938092416
+    },
+    {
+      "pose": [
+        0,
+        -62,
+        -62,
+        0,
+        -90,
+        0
+      ],
+      "name": "corrugated-main-hose",
+      "end": 0,
+      "alignment": 0.9999999472713733
+    },
+    {
+      "pose": [
+        0,
+        -62,
+        -62,
+        0,
+        -90,
+        0
+      ],
+      "name": "corrugated-main-hose",
+      "end": 1,
+      "alignment": 0.9999999782054257
+    },
+    {
+      "pose": [
+        20,
+        -50,
+        -72,
+        20,
+        -80,
+        35
+      ],
+      "name": "red-supply-hose",
+      "end": 0,
+      "alignment": 0.9999999917718708
+    },
+    {
+      "pose": [
+        20,
+        -50,
+        -72,
+        20,
+        -80,
+        35
+      ],
+      "name": "red-supply-hose",
+      "end": 1,
+      "alignment": 0.9999999986580764
+    },
+    {
+      "pose": [
+        20,
+        -50,
+        -72,
+        20,
+        -80,
+        35
+      ],
+      "name": "corrugated-main-hose",
+      "end": 0,
+      "alignment": 0.9999999307083143
+    },
+    {
+      "pose": [
+        20,
+        -50,
+        -72,
+        20,
+        -80,
+        35
+      ],
+      "name": "corrugated-main-hose",
+      "end": 1,
+      "alignment": 0.9999999730905978
+    },
+    {
+      "pose": [
+        -20,
+        -72,
+        -48,
+        -20,
+        -105,
+        -35
+      ],
+      "name": "red-supply-hose",
+      "end": 0,
+      "alignment": 0.999999998580551
+    },
+    {
+      "pose": [
+        -20,
+        -72,
+        -48,
+        -20,
+        -105,
+        -35
+      ],
+      "name": "red-supply-hose",
+      "end": 1,
+      "alignment": 0.9999999890790494
+    },
+    {
+      "pose": [
+        -20,
+        -72,
+        -48,
+        -20,
+        -105,
+        -35
+      ],
+      "name": "corrugated-main-hose",
+      "end": 0,
+      "alignment": 0.9999999702141822
+    },
+    {
+      "pose": [
+        -20,
+        -72,
+        -48,
+        -20,
+        -105,
+        -35
+      ],
+      "name": "corrugated-main-hose",
+      "end": 1,
+      "alignment": 0.9999999873183323
+    }
+  ],
+  "routingChecks": [
+    {
+      "pose": [
+        0,
+        -62,
+        -62,
+        0,
+        -90,
+        0
+      ],
+      "name": "corrugated-main-hose",
+      "centreLineSamples": 73,
+      "insideArmSamples": 0,
+      "minimumBendRadiusMetres": 0.17712387434006283
+    },
+    {
+      "pose": [
+        0,
+        -62,
+        -62,
+        0,
+        -90,
+        0
+      ],
+      "name": "red-supply-hose",
+      "centreLineSamples": 73,
+      "insideArmSamples": 0,
+      "minimumBendRadiusMetres": 0.05306263964613972
+    },
+    {
+      "pose": [
+        0,
+        -62,
+        -62,
+        0,
+        -90,
+        0
+      ],
+      "name": "wire-feed-guide",
+      "centreLineSamples": 73,
+      "insideArmSamples": 0,
+      "minimumBendRadiusMetres": 0.0315535597863099
+    },
+    {
+      "pose": [
+        20,
+        -50,
+        -72,
+        20,
+        -80,
+        35
+      ],
+      "name": "corrugated-main-hose",
+      "centreLineSamples": 73,
+      "insideArmSamples": 0,
+      "minimumBendRadiusMetres": 0.1450159581555153
+    },
+    {
+      "pose": [
+        20,
+        -50,
+        -72,
+        20,
+        -80,
+        35
+      ],
+      "name": "red-supply-hose",
+      "centreLineSamples": 73,
+      "insideArmSamples": 0,
+      "minimumBendRadiusMetres": 0.1280942448982526
+    },
+    {
+      "pose": [
+        20,
+        -50,
+        -72,
+        20,
+        -80,
+        35
+      ],
+      "name": "wire-feed-guide",
+      "centreLineSamples": 73,
+      "insideArmSamples": 0,
+      "minimumBendRadiusMetres": 0.0315714547398931
+    },
+    {
+      "pose": [
+        -20,
+        -72,
+        -48,
+        -20,
+        -105,
+        -35
+      ],
+      "name": "corrugated-main-hose",
+      "centreLineSamples": 73,
+      "insideArmSamples": 0,
+      "minimumBendRadiusMetres": 0.2636166854657979
+    },
+    {
+      "pose": [
+        -20,
+        -72,
+        -48,
+        -20,
+        -105,
+        -35
+      ],
+      "name": "red-supply-hose",
+      "centreLineSamples": 73,
+      "insideArmSamples": 0,
+      "minimumBendRadiusMetres": 0.04969830989967769
+    },
+    {
+      "pose": [
+        -20,
+        -72,
+        -48,
+        -20,
+        -105,
+        -35
+      ],
+      "name": "wire-feed-guide",
+      "centreLineSamples": 73,
+      "insideArmSamples": 0,
+      "minimumBendRadiusMetres": 0.031688043241823276
+    }
+  ],
+  "spoolChecks": [
+    {
+      "pose": [
+        0,
+        -62,
+        -62,
+        0,
+        -90,
+        0
+      ],
+      "mainHoseToReelEnvelopeMetres": 0.10709871866407464,
+      "reelToShoulderAxialGapMetres": 0.08499999880790712
+    },
+    {
+      "pose": [
+        20,
+        -50,
+        -72,
+        20,
+        -80,
+        35
+      ],
+      "mainHoseToReelEnvelopeMetres": 0.07974320504634463,
+      "reelToShoulderAxialGapMetres": 0.0849999988079072
+    },
+    {
+      "pose": [
+        -20,
+        -72,
+        -48,
+        -20,
+        -105,
+        -35
+      ],
+      "mainHoseToReelEnvelopeMetres": 0.10841328593570537,
+      "reelToShoulderAxialGapMetres": 0.08499999880790712
+    }
+  ],
+  "clearanceChecks": {
+    "backrestToEquipmentFrontMetres": 0.06337656679349712,
+    "hoseCoilAboveDeckMetres": 0.006002190828323317
+  },
+  "motionValidation": "motion-validation.json",
+  "routingCheckScope": "Static GLB checks; the full fixed-length movement and collider validation is recorded in motion-validation.json. Quasi-static geometric constraints, not material dynamics.",
+  "assets": [
+    {
+      "name": "xiaomeng-h.glb",
+      "bytes": 20460780,
+      "meshes": 1721,
+      "instances": 1721,
+      "vertices": 1509066,
+      "triangles": 825186,
+      "embeddedTextures": 1,
+      "boundsYUpMetres": [
+        2.7629774253649946,
+        2.055544768680137,
+        1.398000007128343
+      ]
+    },
+    {
+      "name": "fanuc-m10id-8l-welding.glb",
+      "bytes": 6254816,
+      "meshes": 357,
+      "instances": 357,
+      "vertices": 186019,
+      "triangles": 254058,
+      "embeddedTextures": 0,
+      "boundsYUpMetres": [
+        1.6711657111926312,
+        1.2893561125166308,
+        0.8735913898460098
+      ]
+    },
+    {
+      "name": "tube-panel.glb",
+      "bytes": 3941428,
+      "meshes": 42,
+      "instances": 42,
+      "vertices": 273392,
+      "triangles": 129144,
+      "embeddedTextures": 3,
+      "boundsYUpMetres": [
+        2.4000000953674316,
+        0.1749999989643694,
+        0.7336000204086304
+      ]
+    },
+    {
+      "name": "tube-panel-welded.glb",
+      "bytes": 11589004,
+      "meshes": 140,
+      "instances": 140,
+      "vertices": 445872,
+      "triangles": 462932,
+      "embeddedTextures": 3,
+      "boundsYUpMetres": [
+        2.4000000953674316,
+        0.1749999989643694,
+        0.7336000204086304
+      ]
+    }
+  ]
+}

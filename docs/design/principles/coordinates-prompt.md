@@ -1,0 +1,13 @@
+# coordinates — ImageGen keyframe direction
+
+Generated using the built-in ImageGen tool, with art-direction.png as visual reference.
+
+Use case: scientific-educational. Asset: production keyframe contact sheet for a cinematic robotics explainer. Image 1 is visual art direction ONLY. Generate a 2x2 contact sheet, each panel exact matching 600:430 landscape aspect ratio, full sheet around 1600x1152. Four consecutive chapters of COORDINATE TRANSFORMS. Only scientific scene, NO big headings, NO equations, NO captions, NO interface, NO decorative HUD. Dark midnight navy background #06182b. Crisp ice-blue and warm amber, luxurious physically plausible 3D studio product rendering, glass floor planes floating in darkness, illuminated refined edges, tiny pearl light points. Same fixed gentle isometric camera in every panel.
+Panel 1: one unchanging pearl point elevated above a single elegant translucent square coordinate plane. World origin towards bottom left with three small ice-blue axes, camera origin towards right with three warm amber axes. Fine dashed ice-blue and amber vectors reach the same pearl point. Correct sparse typeset labels p, O with W superscript and O with C superscript, not plaintext underscore.
+Panel 2: the two origins brought together at center of same glass plane. Show an ice-blue vector and a rotated amber vector of exactly identical length. Small translucent fan and graceful arc with arrow show direction rotation about vertical axis. Not a pie chart. Same single pearl vector endpoint treatment.
+Panel 3: world origin lower left, amber translation arrow goes to camera origin center, then an ice-blue rotated vector goes from that camera origin to elevated pearl target on upper right. Pale dashed resultant closes a triangle. Distinguish head-to-tail vector addition precisely.
+Panel 4: world, camera and robot-base coordinate triads all rooted on same floating glass plane. A delicate cyan sweep and amber sweep connect transforms through world, while a single stable pearl target remains fixed. Sparse tiny elegant C, W, B origin labels only.
+Art direction: keep subject silhouettes in central 84% of each panel, camera consistent, strong depth from gradients, no grid outside the glass plane, subtle floor reflections, glass not flat illustration. Frame should feel like a top science museum film or Apple product explainer. No robot, no equations, no Chinese text, no thumbnails, no busy labels.
+
+The generated frame is an art-direction reference. Geometry and formulas are calculated by code, so generated perspective or anatomical approximations must not override physical link lengths or coordinate conventions.
+

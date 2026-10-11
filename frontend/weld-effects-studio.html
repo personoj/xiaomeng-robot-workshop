@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>小萌 · 焊接效果检视</title>
+  <style>
+    *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#192025;color:#e7eeef;font-family:Inter,"Microsoft YaHei",sans-serif}
+    #viewport{position:absolute;inset:0}canvas{display:block}header{position:absolute;top:28px;left:32px;pointer-events:none}h1{font-size:23px;font-weight:550;margin:0 0 9px;letter-spacing:.03em}header p{margin:0;color:#9caeb8;font-size:13px;line-height:1.8}.badge{display:inline-block;font-size:10px;letter-spacing:.15em;color:#8ee4fa;margin-bottom:12px}
+    aside{position:absolute;right:28px;top:28px;width:218px;padding:18px 20px;background:#111a22b8;border:1px solid #60758635;border-radius:15px;backdrop-filter:blur(12px)}aside p{font-size:12px;line-height:1.8;color:#acb9c1;margin:10px 0 0}aside b{font-size:13px;font-weight:500}#arc-state{display:flex;align-items:center;gap:8px}#arc-state:before{content:"";width:6px;height:6px;border-radius:50%;background:#81e5fa;box-shadow:0 0 12px #5fcbff}aside[data-off="true"] #arc-state:before{background:#8e9da4;box-shadow:none}
+    footer{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);display:flex;gap:8px;align-items:center;padding:7px;border:1px solid #60758645;border-radius:14px;background:#111a22c4;backdrop-filter:blur(12px)}button{border:0;border-radius:9px;padding:11px 17px;background:transparent;color:#bac8d1;font:inherit;font-size:13px;white-space:nowrap;cursor:pointer}button:hover{background:#33434f}button.active{background:#d9edf1;color:#20313b}#arc-toggle{background:#446472;color:#eafaff;min-width:88px}#metrics{position:absolute;left:32px;bottom:32px;color:#83969f;font-size:11px;font-variant-numeric:tabular-nums}
+    @media(max-width:800px){header{top:18px;left:20px}header p{max-width:260px;font-size:11px}h1{font-size:18px}aside{right:16px;top:auto;bottom:86px;width:190px;padding:12px 15px}aside p{font-size:11px}footer{bottom:16px}button{padding:10px 12px;font-size:12px}#metrics{display:none}}
+  </style>
+</head>
+<body>
+  <div id="viewport"></div>
+  <header><span class="badge">XIAOMENG / WELD OPTICS</span><h1>焊接效果检视</h1><p>按现场照片还原弧光、烟羽与局部反照<br>独立视觉预览 · 尚非机械臂任务执行</p></header>
+  <aside id="status"><b id="arc-state">正在起弧</b><p>白蓝核心 · 青蓝短芒<br>少量短火星 · 蓝灰烟羽<br>停弧后烟雾自然消散</p></aside>
+  <footer><button data-view="photo" class="active">现场角度</button><button data-view="detail">接缝近景</button><button data-view="wide">全景</button><button id="arc-toggle">停止起弧</button></footer>
+  <div id="metrics" aria-live="off"></div>
+  <script type="module" src="/weld-effects-studio.js"></script>
+</body>
+</html>

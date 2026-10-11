@@ -1,0 +1,13 @@
+{
+  "tubes": 8,
+  "openBores": 8,
+  "wallMetres": 0.004,
+  "gapMetres": 0.0007999999999999952,
+  "seams": 7,
+  "previewBeads": 98,
+  "fusionChecks": 196,
+  "minOverlapMetres": 0.00014582274023725028,
+  "maxOverlapMetres": 0.0001458227402373058,
+  "measuredContactDeposition": "Passed: grows from contact travel, fixed deposited vertices, stationary/off/lift/discontinuous travel do not paint gaps",
+  "scope": "Appearance geometry for straight pipe seams. No live robot controller is connected."
+}

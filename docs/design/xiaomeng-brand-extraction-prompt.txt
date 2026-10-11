@@ -1,0 +1,8 @@
+Mode: built-in image_gen, transparent_background=true
+Reference: codex-clipboard-7c244b6e-68e5-4541-b995-2f510a1c8e5e.png
+Asset: frontend/public/brand/xiaomeng-mark.png
+
+Use case: background-extraction.
+Extract ONLY the orange 小萌 / XIAO MENG brand mark from the upper left of the supplied reference screenshot into a clean transparent-background asset for the website header. This is extraction and faithful cleanup, not a new logo design.
+Preserve exactly the original recognizable symbol: a rounded orange square, large white disc within it, and the small orange dot inside the upper-right of the white disc. Beside it preserve the same rounded orange Chinese wordmark "小·萌" (the separator dot as in the reference) and small uppercase orange text "XIAO MENG" underneath. Match the mark's orange color, spacing, Chinese glyph forms, proportions and baseline. The symbol at left is approximately the same total height as the stacked Chinese/English wordmark at right. Keep a very small clean transparent margin, tight horizontal composition, high-resolution sharp edges.
+Remove the entire interface, all other logos including Wuhan University, all circuits, background and shadows. No white background, no new slogan, no border, no invented details. Output one isolated brand lockup only with true transparency.
