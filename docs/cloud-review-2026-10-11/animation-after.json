@@ -1,0 +1,300 @@
+{
+  "source": "[cloud-workspace]/xiaoyun-robot-demo",
+  "sourceHashes": {
+    "principle-diagrams.js": "348334a1fcf125e3cb5337d454931e90b1155ad7b784957c86f4a5fcccb4ad9b",
+    "principle-compositor.js": "10a9fef95a2834566c50f4e36cea572e0391a6dcd749a1bac0794d221c4fabf4",
+    "principle-lessons.js": "8be280b663170dcbdcde3f926859de1e9253b06add3096a6e18b460b589972c7",
+    "principle-narration.json": "1cfa97c5ed9f2267b64f1b37ea39b47afb70165f8afdb03db4560e578438ee78",
+    "principle-math.js": "57eff4b7f7c8fbadd37d128f83cf2b2b2e42dc95a2b90df16aea65fffa19466a",
+    "principle-scenes/spatial.js": "34a3aace65f1b1a4d1c1c48d140b1f31146e8e074e40dc73c3cc44474863ba91",
+    "principle-scenes/spatial-kit.js": "d908d62ca30e6a954ab16061e8cfd9685148bfc26ce727333887aae224600a42",
+    "principle-scenes/cloud-planning.js": "e237b99ffc1371b59077982abc289eabd4089cf4e180d664bf02ab91cb705313",
+    "principle-scenes/cloud-kit.js": "86b0f138b02a266db9f3836f0ea8788ccdc51705f4ab3bd3f7e113e2a2d7d89e"
+  },
+  "node": "v24.19.0",
+  "fps": 30,
+  "width": 600,
+  "height": 430,
+  "fonts": [
+    {
+      "file": "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc",
+      "family": "Microsoft YaHei"
+    },
+    {
+      "file": "/usr/share/texmf/fonts/opentype/public/lm-math/latinmodern-math.otf",
+      "family": "Cambria Math"
+    }
+  ],
+  "scope": "Offline Canvas visible text ink bounds/overlap and finite primitives. 48 beat + 36 transition contact frames, actual recorded narration timestamps. No DOM, browser or automatic geometry occlusion verdict. Visual review must be separately recorded.",
+  "summaries": [
+    {
+      "topic": "coordinates",
+      "frames": 1770,
+      "seconds": 59,
+      "captured": [
+        {
+          "step": 0,
+          "beat": 0,
+          "time": 3.456
+        },
+        {
+          "step": 0,
+          "beat": 1,
+          "time": 9.468
+        },
+        {
+          "step": 0,
+          "beat": 2,
+          "time": 15
+        },
+        {
+          "step": 1,
+          "beat": 0,
+          "time": 18.93
+        },
+        {
+          "step": 1,
+          "beat": 1,
+          "time": 23.177999999999997
+        },
+        {
+          "step": 1,
+          "beat": 2,
+          "time": 28.584000000000003
+        },
+        {
+          "step": 2,
+          "beat": 0,
+          "time": 33.722
+        },
+        {
+          "step": 2,
+          "beat": 1,
+          "time": 38.522
+        },
+        {
+          "step": 2,
+          "beat": 2,
+          "time": 43.288000000000004
+        },
+        {
+          "step": 3,
+          "beat": 0,
+          "time": 47.496
+        },
+        {
+          "step": 3,
+          "beat": 1,
+          "time": 51.68
+        },
+        {
+          "step": 3,
+          "beat": 2,
+          "time": 56.775999999999996
+        }
+      ]
+    },
+    {
+      "topic": "inverse_kinematics",
+      "frames": 1743,
+      "seconds": 58.08,
+      "captured": [
+        {
+          "step": 0,
+          "beat": 0,
+          "time": 2.328
+        },
+        {
+          "step": 0,
+          "beat": 1,
+          "time": 6.795999999999999
+        },
+        {
+          "step": 0,
+          "beat": 2,
+          "time": 11.746
+        },
+        {
+          "step": 1,
+          "beat": 0,
+          "time": 16.006
+        },
+        {
+          "step": 1,
+          "beat": 1,
+          "time": 20.833999999999996
+        },
+        {
+          "step": 1,
+          "beat": 2,
+          "time": 25.87
+        },
+        {
+          "step": 2,
+          "beat": 0,
+          "time": 31.092
+        },
+        {
+          "step": 2,
+          "beat": 1,
+          "time": 36.332
+        },
+        {
+          "step": 2,
+          "beat": 2,
+          "time": 40.71
+        },
+        {
+          "step": 3,
+          "beat": 0,
+          "time": 44.936
+        },
+        {
+          "step": 3,
+          "beat": 1,
+          "time": 49.478
+        },
+        {
+          "step": 3,
+          "beat": 2,
+          "time": 55.379999999999995
+        }
+      ]
+    },
+    {
+      "topic": "pointnet",
+      "frames": 1905,
+      "seconds": 63.480000000000004,
+      "captured": [
+        {
+          "step": 0,
+          "beat": 0,
+          "time": 3.726
+        },
+        {
+          "step": 0,
+          "beat": 1,
+          "time": 9.654
+        },
+        {
+          "step": 0,
+          "beat": 2,
+          "time": 15.213999999999999
+        },
+        {
+          "step": 1,
+          "beat": 0,
+          "time": 20.288
+        },
+        {
+          "step": 1,
+          "beat": 1,
+          "time": 25.387999999999998
+        },
+        {
+          "step": 1,
+          "beat": 2,
+          "time": 30.344
+        },
+        {
+          "step": 2,
+          "beat": 0,
+          "time": 34.550000000000004
+        },
+        {
+          "step": 2,
+          "beat": 1,
+          "time": 38.562000000000005
+        },
+        {
+          "step": 2,
+          "beat": 2,
+          "time": 43.942
+        },
+        {
+          "step": 3,
+          "beat": 0,
+          "time": 49.346
+        },
+        {
+          "step": 3,
+          "beat": 1,
+          "time": 55.28
+        },
+        {
+          "step": 3,
+          "beat": 2,
+          "time": 61.263999999999996
+        }
+      ]
+    },
+    {
+      "topic": "planning",
+      "frames": 1809,
+      "seconds": 60.290000000000006,
+      "captured": [
+        {
+          "step": 0,
+          "beat": 0,
+          "time": 2.988
+        },
+        {
+          "step": 0,
+          "beat": 1,
+          "time": 8.052
+        },
+        {
+          "step": 0,
+          "beat": 2,
+          "time": 12.614
+        },
+        {
+          "step": 1,
+          "beat": 0,
+          "time": 16.732
+        },
+        {
+          "step": 1,
+          "beat": 1,
+          "time": 21.024
+        },
+        {
+          "step": 1,
+          "beat": 2,
+          "time": 25.596
+        },
+        {
+          "step": 2,
+          "beat": 0,
+          "time": 30.658
+        },
+        {
+          "step": 2,
+          "beat": 1,
+          "time": 36.558
+        },
+        {
+          "step": 2,
+          "beat": 2,
+          "time": 41.95
+        },
+        {
+          "step": 3,
+          "beat": 0,
+          "time": 46.846000000000004
+        },
+        {
+          "step": 3,
+          "beat": 1,
+          "time": 51.848000000000006
+        },
+        {
+          "step": 3,
+          "beat": 2,
+          "time": 57.718
+        }
+      ]
+    }
+  ],
+  "issues": []
+}
