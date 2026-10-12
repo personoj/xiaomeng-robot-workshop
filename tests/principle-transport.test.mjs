@@ -7,7 +7,7 @@ import {PrincipleTimeline} from '../frontend/principle-timeline.js';
 // Execute the production player methods in Node, omitting only its CSS import.
 // This is a controllable media/clock harness, not browser/DOM or acoustic validation.
 const playerURL = new URL('../frontend/principle-player.js', import.meta.url);
-const source = (await readFile(playerURL, 'utf8')).replace(/^import '\.\/principle-player\.css';\n/m, '')
+const source = (await readFile(playerURL, 'utf8')).replace(/^import '\.\/principle-player\.css';\r?\n/m, '')
   .replace(/from '(\.\/[^']+)'/g, (_, path) => `from '${new URL(path, playerURL).href}'`);
 const {PrinciplePlayer} = await import('data:text/javascript;base64,' + Buffer.from(source).toString('base64'));
 const deferred = () => { let resolve, reject; const promise = new Promise((yes, no) => { resolve=yes; reject=no; }); return {promise, resolve, reject}; };
