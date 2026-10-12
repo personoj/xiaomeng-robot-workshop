@@ -17,7 +17,7 @@ function refresh(detail){
   document.querySelectorAll('[data-script-step]').forEach(el=>{const current=Number(el.dataset.scriptStep)===state.step;el.dataset.current=String(current);el.querySelector('button').setAttribute('aria-current',current?'step':'false');});
   if(detail?.type==='step'&&state.topic){
     const list=$('script-list'),item=list.querySelector(`[data-script-step="${state.step}"]`);
-    if(item)list.scrollTo({top:list.scrollTop+item.getBoundingClientRect().top-list.getBoundingClientRect().top,behavior:'smooth'});
+    if(item)list.scrollTo({top:list.scrollTop+item.getBoundingClientRect().top-list.getBoundingClientRect().top,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
   }
 }
 player=new PrinciplePlayer($('lesson-player'),{onChange:refresh});const detach=attachPrincipleAPI(player);
