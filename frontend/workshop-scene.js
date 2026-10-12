@@ -7,6 +7,7 @@ import {createPipePanel,appendPanelWeldContact} from './tube-panel-model.js';
 import {createXiaomengH,ASSET_ROOT} from './welding-model.js';
 import {createWeldingEffects} from './welding-effects.js';
 import {rollWheels} from './workshop-layout.js';
+import {CameraTransition} from './camera-transition.js';
 
 export const WORKCELL_OFFSET=new T.Vector3(-2.6,-.35,.88);
 const material=(color,roughness=.7,metalness=.08)=>new T.MeshStandardMaterial({color,roughness,metalness});
@@ -56,34 +57,72 @@ export class WorkshopScene extends RobotScene{
     this.pointerLeave=()=>{this.hoveredId=null;this.requestRender();};
     this.renderer.domElement.addEventListener('pointermove',this.pointerMove);this.renderer.domElement.addEventListener('pointerleave',this.pointerLeave);
     this.cameraHome();
+    this.setupCameraTransitions();
   }
   zone([x,y],[w,h],color){
     const m=material(color);for(const [size,p] of [[[w,.025,.005],[x,y-h/2,.006]],[[w,.025,.005],[x,y+h/2,.006]],[[.025,h,.005],[x-w/2,y,.006]],[[.025,h,.005],[x+w/2,y,.006]]])box(this.stage,'floor-zone',size,p,m);
   }
-  cameraHome(){
+  setupCameraTransitions(){
+    this.cameraMotion=new CameraTransition();
+    this.cameraMotionPreference=globalThis.matchMedia?.('(prefers-reduced-motion: reduce)');
+    this.onCameraInteraction=()=>{this.cameraInteracting=true;this.cameraMotion.cancel();this.cameraHomeAspect=null;};
+    this.onCameraInteractionEnd=()=>{this.cameraInteracting=false;};
+    this.onCameraMotionPreference=()=>{
+      if(!this.cameraMotionPreference.matches||this.disposed)return;
+      const pose=this.cameraMotion.finish();this.cameraHomeAspect=null;
+      if(pose){this.writeCameraPose(pose);this.requestRender();}
+    };
+    this.controls.addEventListener('start',this.onCameraInteraction);
+    this.controls.addEventListener('end',this.onCameraInteractionEnd);
+    this.cameraMotionPreference?.addEventListener('change',this.onCameraMotionPreference);
+  }
+  writeCameraPose(pose){
+    this.controls.target.fromArray(pose.target);this.camera.position.fromArray(pose.position);
+    this.controls.update();
+  }
+  moveCameraTo(pose,{animate=true,home=false}={}){
+    if(this.disposed||this.cameraInteracting)return;
+    const from={position:this.camera.position.toArray(),target:this.controls.target.toArray()};
+    // Flush orbit inertia through its public API, then restore the displayed pose.
+    // No intermediate pose is rendered and manual controls stay enabled throughout.
+    const damping=this.controls.enableDamping;
+    this.controls.enableDamping=false;this.controls.update();this.controls.enableDamping=damping;
+    const immediate=!animate||!this.cameraMotion||!!this.cameraMotionPreference?.matches;
+    this.writeCameraPose(this.cameraMotion?.start(from,pose,performance.now(),{immediate})||pose);
+    this.cameraHomeAspect=home&&this.cameraMotion?.active?this.camera.aspect:null;
+    this.requestRender();
+  }
+  cameraHome({animate=false}={}){
+    if(this.disposed)return;
     const right=Math.max(5.5,...(this.latestObjects||[]).map(o=>o.position[0]+(o.kind==='panel'?1.2:o.kind==='welder'?1.5:0)));
     const centre=new T.Vector3((right-3.1)/2,.15,1.15),direction=new T.Vector3(-.4,-1,.65).normalize();
-    this.camera.position.copy(centre).addScaledVector(direction,20);this.camera.lookAt(centre);this.camera.updateMatrixWorld(true);
-    const inverse=this.camera.quaternion.clone().invert(),tan=Math.tan(this.camera.fov*Math.PI/360);let distance=0;
+    // Compute the overview without temporarily moving the live camera. This also
+    // runs during RobotScene's constructor, before the coordinator is installed.
+    const orientation=new T.Matrix4().lookAt(centre.clone().addScaledVector(direction,20),centre,this.camera.up);
+    const inverse=new T.Quaternion().setFromRotationMatrix(orientation).invert(),tan=Math.tan(this.camera.fov*Math.PI/360);let distance=0;
     for(const x of [-3.1,right])for(const y of [-2.5,2.75])for(const z of [0,2.6]){
       const p=new T.Vector3(x,y,z).sub(centre).applyQuaternion(inverse);
       distance=Math.max(distance,p.z+Math.abs(p.x)/(tan*this.camera.aspect*.90),p.z+Math.abs(p.y)/(tan*.90));
     }
-    this.controls.target.copy(centre);this.camera.position.copy(centre).addScaledVector(direction,distance);this.controls.maxDistance=50;this.controls.update();this.requestRender();
+    this.controls.maxDistance=50;
+    this.moveCameraTo({target:centre.toArray(),position:centre.clone().addScaledVector(direction,distance).toArray()},{animate,home:true});
   }
   applyView(view,revision,target){
-    const key=view+':'+revision;if(key===this.viewKey)return;this.viewKey=key;
-    if(view===1){this.controls.target.set(-2.28,-.30,1.00);this.camera.position.set(-2.34,-2.02,1.97);}
+    if(this.disposed)return;
+    const key=view+':'+revision;if(key===this.viewKey)return;
+    const animate=this.viewKey!==undefined;this.viewKey=key;
+    if(view===1)this.moveCameraTo({target:[-2.28,-.30,1.00],position:[-2.34,-2.02,1.97]},{animate});
     else if(view===3){
       const panel=this.latestObjects?.find(o=>o.id===target&&o.kind==='panel')||this.latestObjects?.find(o=>o.kind==='panel'),p=panel?.position||[1.1,2.25,1.25];
-      this.controls.target.set(p[0],p[1]-.15,p[2]+.08);this.camera.position.set(p[0]-1.6,p[1]-1.9,p[2]+.70);
-    }else{this.cameraHome();return;}
-    this.controls.update();this.requestRender();
+      this.moveCameraTo({target:[p[0],p[1]-.15,p[2]+.08],position:[p[0]-1.6,p[1]-1.9,p[2]+.70]},{animate});
+    }else this.cameraHome({animate});
   }
   focus(kind){
-    if(['gripper','ball','cube','tray'].includes(kind)){this.controls.target.set(-2.15,-.30,1.15);this.camera.position.set(-4.05,-2.8,2.9);}
-    else if(kind==='welder'||kind==='panel'){const panel=this.latestObjects?.find(o=>o.kind==='panel');const p=panel?.position||[1.1,2.25,1.25];this.controls.target.set(p[0]+.35,p[1]-.35,p[2]-.1);this.camera.position.set(p[0]-2.8,p[1]-3.2,p[2]+1.65);}
-    else this.cameraHome();this.controls.update();this.requestRender();
+    if(['gripper','ball','cube','tray'].includes(kind))this.moveCameraTo({target:[-2.15,-.30,1.15],position:[-4.05,-2.8,2.9]});
+    else if(kind==='welder'||kind==='panel'){
+      const panel=this.latestObjects?.find(o=>o.kind==='panel'),p=panel?.position||[1.1,2.25,1.25];
+      this.moveCameraTo({target:[p[0]+.35,p[1]-.35,p[2]-.1],position:[p[0]-2.8,p[1]-3.2,p[2]+1.65]});
+    }else this.cameraHome({animate:true});
   }
   load(data){super.load(data);this.robot.position.copy(WORKCELL_OFFSET);this.geometryNames=new Map(data.geometries.map(g=>[g.id,g.name]));this.robotGeomIds=new Set(data.robot_geom_ids||[]);}
   async syncAssets(objects){
@@ -201,9 +240,13 @@ export class WorkshopScene extends RobotScene{
   setSelected(ids=[]){const key=ids.join('|');if(this.selectionKey===key)return;this.selectionKey=key;this.selectedIds=new Set(ids);this.requestRender();}
   requestRender(){
     if(this.renderRequested||this.disposed)return;this.renderRequested=true;
-    requestAnimationFrame(()=>{
-      this.renderRequested=false;if(this.disposed||!this.container.clientWidth)return;
-      this.controls.update();this.drawScene();
+    this.renderFrame=requestAnimationFrame(now=>{
+      this.renderFrame=null;this.renderRequested=false;
+      if(this.disposed||!this.container.clientWidth||!this.container.clientHeight)return;
+      if(this.cameraMotion?.active&&this.cameraHomeAspect!==null&&this.cameraHomeAspect!==this.camera.aspect)this.cameraHome({animate:true});
+      const pose=this.cameraMotion?.sample(now);
+      if(pose)this.writeCameraPose(pose);else this.controls.update();
+      this.drawScene(now);
       for(const o of this.latestObjects||[]){
         const label=this.labels?.get(o.id);if(!label)continue;
         const p=new T.Vector3(...o.position);
@@ -214,7 +257,16 @@ export class WorkshopScene extends RobotScene{
         label.hidden=!visible;label.style.left=((p.x*.5+.5)*this.container.clientWidth)+'px';label.style.top=((-p.y*.5+.5)*this.container.clientHeight)+'px';
         label.classList.toggle('selected',this.selectedIds?.has(o.id)||false);
       }
+      if(this.cameraMotion?.active)this.requestRender();
     });
   }
-  dispose(){clearInterval(this.fxTimer);this.weldFX.dispose();this.renderer.domElement.removeEventListener('pointermove',this.pointerMove);this.renderer.domElement.removeEventListener('pointerleave',this.pointerLeave);for(const label of this.labels.values())label.remove();this.environment?.dispose();super.dispose();}
+  dispose(){
+    if(this.disposed)return;
+    this.cameraMotion?.cancel();
+    this.controls.removeEventListener('start',this.onCameraInteraction);
+    this.controls.removeEventListener('end',this.onCameraInteractionEnd);
+    this.cameraMotionPreference?.removeEventListener('change',this.onCameraMotionPreference);
+    if(this.renderFrame!=null)cancelAnimationFrame(this.renderFrame);
+    this.renderFrame=null;this.renderRequested=false;
+    clearInterval(this.fxTimer);this.weldFX.dispose();this.renderer.domElement.removeEventListener('pointermove',this.pointerMove);this.renderer.domElement.removeEventListener('pointerleave',this.pointerLeave);for(const label of this.labels.values())label.remove();this.environment?.dispose();super.dispose();}
 }
