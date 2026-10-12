@@ -10,6 +10,9 @@ import { presentation } from "./workshop-presentation.js";
 import { VoiceVisuals } from "./voice-visuals.js";
 import { PrinciplePlayer, attachPrincipleAPI } from "./principle-player.js";
 import { PrincipleVoice } from "./principle-voice.js";
+import { WorkshopControls } from "./workshop-controls.js";
+import { optionalStartup } from "./optional-startup.js";
+import { setTextIfChanged } from "./ui-feedback.js";
 import {
   createIcons,
   Settings,
@@ -25,6 +28,7 @@ import {
 import "./demo.css";
 import "./workshop.css";
 import "./workshop-explainer.css";
+import "./workshop-experience.css";
 
 const $ = (id) => document.getElementById(id),
   icon = (name) => `<i data-lucide="${name}"></i>`;
@@ -39,18 +43,18 @@ if (querySession && /^[a-f0-9]{32}$/.test(querySession))
   stored.sessionId = querySession;
 $("app").innerHTML = `
 <div class="app-shell">
- <header class="topbar"><div class="brand"><span class="xiaomeng-mark"><img src="/brand/xiaomeng-mark.png" alt="小萌 XIAO MENG"></span><span class="brand-divider"></span><img class="university-emblem" src="/brand/wut-emblem.png" alt="武汉理工大学校徽"><img class="university-wordmark" src="/brand/wut-wordmark.png" alt="武汉理工大学"></div><div class="workshop-title"><div><strong>机器人工作坊</strong><span>ROBOTICS WORKSHOP</span></div><i></i></div><div class="top-actions"><span class="connection-state" id="connection-state" title="前端与语音服务的连接"><i></i><span id="connection-label">待连接</span></span><span class="separator"></span><button class="icon-button" id="settings" aria-label="设置">${icon("settings")}<span>设置</span></button></div></header>
+ <header class="topbar"><div class="brand"><span class="xiaomeng-mark"><img src="/brand/xiaomeng-mark.png" alt="小萌 XIAO MENG"></span><span class="brand-divider"></span><img class="university-emblem" src="/brand/wut-emblem.png" alt="武汉理工大学校徽"><img class="university-wordmark" src="/brand/wut-wordmark.png" alt="武汉理工大学"></div><div class="workshop-title"><div><strong>机器人工作坊</strong><span>ROBOTICS WORKSHOP</span></div><i></i></div><div class="top-actions"><span class="connection-state" id="connection-state" title="本地仿真与语音通道分别显示"><i></i><span id="connection-label">正在连接仿真</span></span><span class="separator"></span><button class="icon-button" id="settings" aria-label="设置">${icon("settings")}<span>设置</span></button></div></header>
  <main class="workspace">
   <aside class="voice-panel panel" aria-label="语音交互">
    <h1>${icon("mic")}<span>语音交互</span></h1>
    <div class="voice-wave"><canvas id="output-wave" role="img" aria-label="小萌说话的波形"></canvas></div>
    <div class="input-voice" aria-label="用户语音输入"><div id="input-bars" class="input-bars" aria-hidden="true">${"<i></i>".repeat(11)}</div><p id="input-caption" aria-live="polite"></p></div>
-   <section class="instruction"><h2>${icon("file-text")}本次指令</h2><p id="instruction-text" class="instruction-copy empty" tabindex="0" aria-label="本次指令内容">当前还没有任务</p>
+   <section class="instruction"><h2>${icon("file-text")}本次指令</h2><p id="instruction-text" class="instruction-copy empty" tabindex="0" aria-label="本次指令内容">从道具与任务开始，也可以先听一段原理。</p><button type="button" class="local-start" id="open-local-controls">添加道具，开始体验</button>
     <div class="object-flow workshop-object-flow" id="object-flow" hidden><span id="source-label"></span><span class="flow-arrow">${icon("arrow-right")}</span><span id="target-label"></span><span id="target-shape" hidden></span></div>
    </section>
-   <div class="voice-circuits" aria-hidden="true"></div>
+   <div class="voice-guidance"><p id="voice-readiness" role="status">原理讲解与本地仿真无需语音连接。</p><button type="button" class="text-button" id="voice-setup">连接语音</button></div><div class="voice-circuits" aria-hidden="true"></div>
   </aside>
-  <section class="scene-panel panel" aria-label="机械臂仿真场景"><div class="scene-heading"><h2>${armIcon}<span>机器人工作坊</span></h2><span id="workshop-phase" class="workshop-phase"></span></div><div id="scene" class="scene"><div id="loading">正在准备三维场景…</div></div><details class="prop-dock" id="prop-dock"><summary class="dock-heading"><span>${icon("box")}道具库</span></summary><div class="dock-items" id="dock-items"></div></details></section>
+  <section class="scene-panel panel" aria-label="机械臂仿真场景"><div class="scene-heading"><h2>${armIcon}<span>机器人工作坊</span></h2><span id="workshop-phase" class="workshop-phase"></span></div><div id="workshop-controls" class="workshop-controls" aria-label="视角与机器人任务"></div><div id="scene" class="scene"><div id="loading">正在准备三维场景…</div></div><details class="prop-dock" id="prop-dock"><summary class="dock-heading"><span>${icon("box")}道具与任务</span><small>添加 · 抓放 · 点焊</small></summary><div id="local-controls" class="local-controls"></div><div class="dock-items" id="dock-items"></div></details></section>
   <aside class="right-column panel" aria-label="原理讲解"><div id="principle-panel"></div></aside>
  </main>
 </div>
@@ -97,6 +101,7 @@ let sceneId = null,
   stopped = false,
   toastTimer,
   pollTimer;
+let localControls = null, startup = null;
 let simulationOnline = false,
   zeroing = false;
 let catalog = { sessions: [], device_available: false },
@@ -138,16 +143,15 @@ function toast(message) {
   toastTimer = setTimeout(() => ($("toast").hidden = true), 5000);
 }
 function setConnection(connected = !!bridge) {
-  $("connection-state").classList.toggle(
-    "online",
-    connected && simulationOnline,
-  );
-  $("connection-label").textContent =
-    connected && simulationOnline
-      ? "已连接"
-      : !simulationOnline
-        ? "仿真未连接"
-        : "待连接";
+  $("connection-state").classList.toggle("online", simulationOnline);
+  setTextIfChanged($("connection-label"), simulationOnline
+    ? connected ? "仿真就绪 · 语音服务已连接" : "仿真就绪 · 语音未连接"
+    : "仿真连接中断");
+  setTextIfChanged($("voice-readiness"), connected
+    ? "语音服务已连接。可打开语音工作台；使用设备时，按住 BOOT 说话、松开提交。"
+    : "直接添加道具或播放原理即可体验。语音是可选的。");
+  setTextIfChanged($("voice-setup"), connected ? "语音连接设置" : "连接语音");
+  localControls?.update(controller.state, simulationOnline);
 }
 async function render(state) {
   const assetKey=state.scene_id+':'+(state.runtime_id||'');
@@ -164,12 +168,14 @@ async function render(state) {
   scene.applyView(state.view||2,state.view_revision||0,state.view_target);
   scene.setSelected([state.job?.source,state.job?.target].filter(Boolean));
   simulationOnline = true;
+  startup?.simulationReady();
   setConnection();
   const p = presentation(state);
-  const instruction = p.copy?.instruction || "当前还没有任务";
+  const instruction = p.copy?.instruction || "从道具与任务开始，也可以先听一段原理。";
   if($("instruction-text").textContent !== instruction) $("instruction-text").textContent = instruction;
   $("instruction-text").classList.toggle('long-copy', instruction.length > 42);
   $("instruction-text").classList.toggle("empty", !p.copy);
+  $("open-local-controls").hidden = !!p.copy;
   $("object-flow").hidden = !p.copy;
   if (p.copy) {
     $("target-label").textContent = p.copy.target;
@@ -181,7 +187,8 @@ async function render(state) {
     }
     $("target-shape").classList.toggle("tray", p.copy.kind === "tray");
   }
-  $("workshop-phase").textContent = p.started ? p.title : '';
+  setTextIfChanged($("workshop-phase"), p.started ? p.title : '仿真就绪');
+  $("workshop-phase").setAttribute("role", "status");
   $("workshop-phase").dataset.status = p.status;
   scene.render(state.frame,{moving:state.status==='running'&&state.task==='pick_place'});
   renderDock(state.objects);
@@ -192,7 +199,7 @@ async function render(state) {
 function renderDock(objects){
   const kinds=[['gripper','抓手机械臂'],['welder','小萌 H7'],['panel','钢管管排'],['ball','彩色球'],['cube','方块'],['tray','托盘']];
   const signature=objects.map(o=>o.id).join('|');if(renderDock.signature===signature)return;renderDock.signature=signature;
-  $('dock-items').replaceChildren(...kinds.map(([kind,label])=>{const button=document.createElement('button');button.type='button';button.className='prop-card';button.setAttribute('aria-label','查看'+label);button.innerHTML=`<img class="prop-model-thumb" alt=""><strong>${label}</strong><small>场内 ${objects.filter(o=>o.kind===kind).length}</small>`;const image=button.querySelector("img");image.dataset.kind=kind;button.onclick=()=>controller.command('set_view',{view:['welder','panel'].includes(kind)?3:1}).catch(e=>toast(e.message));return button;}));
+  $('dock-items').replaceChildren(...kinds.map(([kind,label])=>{const button=document.createElement('button');button.type='button';button.className='prop-card';button.setAttribute('aria-label','查看'+label);button.innerHTML=`<img class="prop-model-thumb" alt=""><strong>${label}</strong><small>场内 ${objects.filter(o=>o.kind===kind).length}</small>`;const image=button.querySelector("img");image.dataset.kind=kind;button.onclick=()=>localControls.session.run('set_view',{view:['welder','panel'].includes(kind)?3:1});return button;}));
   if($("prop-dock").open)loadDockImages();
 }
 function loadDockImages(){
@@ -203,6 +210,10 @@ function loadDockImages(){
 }
 $('prop-dock').addEventListener('toggle',()=>{if($('prop-dock').open)loadDockImages();});
 const controller = new DemoController({ onState: render, onError: toast });
+localControls = new WorkshopControls({root: $("workshop-controls"), dock: $("local-controls"), controller});
+startup = optionalStartup({hasSession:() => !!stored.sessionId, connect:() => connect(false, false), onError:error => { if (!stopped) $("connection-detail").textContent = error.message; }});
+$("voice-setup").onclick = showConnection;
+$("open-local-controls").onclick = () => { $("prop-dock").open = true; $("local-controls").querySelector("select").focus({preventScroll:false}); };
 function publishContext() {
   if (!bridge || !controller.state || voiceExecution || controller.busy) return;
   const snapshot = summarize(controller.state),
@@ -253,11 +264,16 @@ function describeSession() {
       ].join(" · ")
     : "还没有会话，可以直接新建。";
 }
+// Speech discovery is optional and bounded. It never owns simulation startup.
+function speechFetch(url, init = {}) {
+  if (init.method && init.method.toUpperCase() !== "GET") return fetch(url, init);
+  return fetch(url, {...init, signal: AbortSignal.timeout(6000)});
+}
 async function loadSessions() {
   const request = ++catalogRequest;
   $("refresh-sessions").disabled = true;
   try {
-    const response = await fetch(serviceOrigin() + "/api/sessions");
+    const response = await speechFetch(serviceOrigin() + "/api/sessions");
     if (!response.ok) throw new Error("无法读取会话列表，请检查语音服务地址。");
     const result = await response.json();
     if (request !== catalogRequest) return;
@@ -409,7 +425,7 @@ async function connect(create = false, closeSettings = true) {
     const nextServer = serviceOrigin();
     let nextSession = $("session-id").value.trim();
     if (create) {
-      const response = await fetch(nextServer + "/api/sessions", {
+      const response = await speechFetch(nextServer + "/api/sessions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: $("new-session-name").value.trim() }),
@@ -419,7 +435,7 @@ async function connect(create = false, closeSettings = true) {
     }
     if (!/^[a-f0-9]{32}$/.test(nextSession))
       throw new Error("请选择已有会话，或点击“新建并连接”。");
-    const directory = await fetch(nextServer + "/api/sessions");
+    const directory = await speechFetch(nextServer + "/api/sessions");
     if (!directory.ok) throw new Error("无法读取会话，请检查语音服务。");
     catalog = await directory.json();
     const target = catalog.sessions.find((s) => s.session_id === nextSession);
@@ -430,7 +446,7 @@ async function connect(create = false, closeSettings = true) {
       throw new Error("该会话正在被其他页面使用，请选择另一会话。");
     let deviceChanged = false;
     if (catalog.device_available && catalog.device_session_id !== nextSession) {
-      const response = await fetch(nextServer + "/api/device/session", {
+      const response = await speechFetch(nextServer + "/api/device/session", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ session_id: nextSession }),
@@ -577,6 +593,7 @@ async function poll() {
 }
 window.addEventListener("pagehide", () => {
   stopped = true;
+  startup?.cancel();
   clearTimeout(pollTimer);
   clearTimeout(toastTimer);
   bridgeGeneration++;
@@ -590,10 +607,12 @@ window.addEventListener("pagehide", () => {
   window.removeEventListener("xiaoyun:audio", audioHandler);
   delete window.xiaoyunDemoAudio;
 });
-await controller.refresh().catch((error) => toast(error.message));
-await loadSessions();
-if (!stored.sessionId) stored.sessionId = $("session-id").value;
-if (stored.sessionId && controller.state) await connect(false, false);
+// Local simulation starts first and remains live even if speech never responds.
 controller.connectStream(online=>{simulationOnline=online;setConnection();});
 window.xiaomengPerformance={snapshot:()=>({scene:{...scene.metrics,drawCalls:scene.renderer.info.render.calls,triangles:scene.renderer.info.render.triangles},controller:{...controller.metrics},streamConnected:controller.streamConnected})};
 poll();
+loadSessions().then(() => {
+  if (stopped) return;
+  if (!stored.sessionId) stored.sessionId = $("session-id").value;
+  startup.speechReady();
+}).catch(error => { if (!stopped) $("connection-detail").textContent = error.message; });

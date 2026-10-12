@@ -1,0 +1,449 @@
+/* Experience layer: one persistent world, clear local controls, quiet motion. */
+:root {
+  --xm-ink: #102b50;
+  --xm-muted: #536b84;
+  --xm-line: #dce7f2;
+  --xm-ice: #eef6fc;
+  --xm-accent: #cf6818;
+}
+body {
+  min-width: 320px;
+}
+button,
+select,
+input {
+  font: inherit;
+}
+button:disabled {
+  cursor: not-allowed;
+}
+button:focus-visible,
+a:focus-visible,
+select:focus-visible,
+input:focus-visible,
+summary:focus-visible {
+  outline: 3px solid #bc5a0e;
+  outline-offset: 3px;
+}
+.workshop-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 0 18px 12px;
+  color: var(--xm-ink);
+  flex: none;
+}
+.view-presets {
+  background: var(--xm-ice);
+  padding: 3px;
+  border: 1px solid var(--xm-line);
+}
+.view-presets button {
+  min-height: 36px;
+  padding: 6px 10px;
+  color: #425f7d;
+  font-size: 12px;
+}
+.view-presets button[aria-pressed="true"] {
+  color: var(--xm-ink);
+  background: #fff;
+  box-shadow: 0 1px 5px #12365a16;
+}
+.task-transport {
+  display: flex;
+  gap: 5px;
+  margin-left: auto;
+}
+.task-transport button,
+.state-refresh {
+  background: #fff;
+  border: 1px solid #cbdbe9;
+  border-radius: 8px;
+  color: #294664;
+  min-height: 38px;
+  padding: 7px 10px;
+  font-size: 12px;
+}
+.task-transport [data-action="stop"]:not(:disabled) {
+  color: #ab472b;
+  border-color: #dcab98;
+  background: #fff8f5;
+}
+.control-notice {
+  flex: 1 1 100%;
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--xm-muted);
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.control-notice[data-error="true"] {
+  color: #934523;
+  background: #fff6ee;
+  border-left: 3px solid #cc793a;
+  padding: 8px 10px;
+  border-radius: 2px 7px 7px 2px;
+}
+.state-refresh {
+  margin-left: auto;
+}
+.scene-heading {
+  flex-wrap: wrap;
+}
+.workshop-phase {
+  display: block !important;
+  color: #496881;
+  font-size: 13px;
+  max-width: 100%;
+}
+.workshop-phase[data-status="error"] {
+  color: #994828;
+}
+.voice-guidance {
+  margin-top: 18px;
+  position: relative;
+  z-index: 1;
+}
+.voice-guidance p {
+  color: var(--xm-muted);
+  font-size: 13px;
+  line-height: 1.8;
+  margin: 0 0 6px;
+}
+#input-caption {
+  color: var(--xm-muted);
+}
+.voice-guidance .text-button {
+  min-height: 36px;
+  color: #154f82;
+  text-align: left;
+  padding: 4px 0;
+}
+.instruction-copy.empty {
+  color: #57718c;
+  font-size: 16px;
+  line-height: 1.8;
+  font-weight: 400;
+}
+.local-start {
+  min-height: 42px;
+  padding: 9px 10px;
+  border: 1px solid #d9b394;
+  border-radius: 9px;
+  color: #814a20;
+  background: #fff7ef;
+  font-size: 12px;
+  line-height: 1.6;
+}
+.voice-circuits {
+  opacity: 0.42;
+  min-height: 36px;
+}
+.connection-state {
+  font-size: 12px;
+  color: #49617b;
+}
+.top-actions {
+  gap: 12px;
+}
+.dock-heading {
+  padding: 12px 16px;
+  font-size: 16px;
+  min-height: 44px;
+  gap: 10px;
+}
+.dock-heading small {
+  color: #58738d;
+  font-size: 11px;
+  margin-left: auto;
+}
+.dock-heading:after {
+  margin-left: 0;
+}
+.prop-dock[open] {
+  max-height: min(54vh, 510px);
+  overflow: auto;
+  scrollbar-width: thin;
+}
+.local-controls {
+  padding: 2px 16px 16px;
+}
+.local-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: baseline;
+  margin: 4px 0 12px;
+}
+.local-heading strong {
+  color: var(--xm-ink);
+  font-size: 14px;
+}
+.local-heading span,
+.local-reason {
+  font-size: 11px;
+  color: var(--xm-muted);
+  line-height: 1.7;
+}
+.spawn-controls {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr auto;
+  gap: 8px;
+  align-items: end;
+}
+.local-controls label {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--xm-muted);
+}
+.local-controls select {
+  min-width: 0;
+  width: 100%;
+  min-height: 38px;
+  border: 1px solid #cdddea;
+  border-radius: 8px;
+  background: #fff;
+  color: var(--xm-ink);
+  font-size: 12px;
+  padding: 7px 8px;
+}
+.local-controls button {
+  min-height: 38px;
+  border: 1px solid #bccfe2;
+  border-radius: 8px;
+  color: #244d77;
+  background: #f4f9fe;
+  font-size: 12px;
+  padding: 7px 10px;
+}
+.local-controls .local-primary {
+  background: #173f68;
+  color: white;
+  border-color: #173f68;
+}
+.local-reason {
+  margin: 8px 0 14px;
+}
+.direct-tasks {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  padding-top: 13px;
+  border-top: 1px solid var(--xm-line);
+}
+.direct-tasks form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  align-content: start;
+}
+.direct-tasks h3 {
+  grid-column: 1/-1;
+  margin: 0 0 3px;
+  color: #27476b;
+  font-size: 13px;
+  font-weight: 650;
+}
+.direct-tasks button,
+.direct-tasks p {
+  grid-column: 1/-1;
+}
+.direct-tasks p {
+  margin: 0;
+  color: var(--xm-muted);
+  font-size: 11px;
+  line-height: 1.65;
+}
+.manage-props {
+  border-top: 1px solid var(--xm-line);
+  margin-top: 14px;
+  padding-top: 10px;
+}
+.manage-props summary {
+  min-height: 38px;
+  cursor: pointer;
+  color: #365c80;
+  font-size: 12px;
+  padding: 9px 0;
+}
+.remove-controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: end;
+}
+.remove-controls .park-welder {
+  grid-column: 1/-1;
+}
+.manage-props > p {
+  color: var(--xm-muted);
+  font-size: 11px;
+  line-height: 1.7;
+  margin-bottom: 0;
+}
+.dock-items {
+  border-top: 1px solid var(--xm-line);
+  padding-top: 12px;
+}
+.prop-card small {
+  color: #536e86;
+}
+.prop-card strong {
+  color: #254969;
+}
+.right-column {
+  scrollbar-gutter: stable;
+}
+.right-column .principle-footer {
+  display: flex;
+}
+@media (min-width: 1001px) {
+  .workspace {
+    grid-template-columns: minmax(185px, 17%) minmax(0, 1fr) minmax(330px, 29%);
+  }
+  .voice-panel {
+    padding: 20px 16px 16px;
+  }
+  .voice-wave {
+    flex-basis: clamp(100px, 16vh, 170px);
+  }
+  .scene-panel > .scene {
+    min-height: 260px;
+  }
+  .voice-panel h1 {
+    font-size: 21px;
+    gap: 10px;
+  }
+  .instruction h2 {
+    font-size: 19px;
+  }
+  .instruction-copy {
+    font-size: 19px;
+  }
+  .voice-panel .input-voice {
+    margin-bottom: 12px;
+  }
+}
+@media (max-width: 1380px) and (min-width: 1001px) {
+  .workspace {
+    grid-template-columns: 180px minmax(0, 1fr) 330px;
+  }
+  .workshop-controls {
+    gap: 6px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  .task-transport {
+    margin-left: 0;
+  }
+  .view-presets button,
+  .task-transport button {
+    padding: 6px 8px;
+  }
+  .university-wordmark {
+    display: none;
+  }
+}
+@media (max-width: 1000px) {
+  .scene-panel {
+    height: auto;
+    min-height: 580px;
+  }
+  .scene-panel > .scene {
+    flex: 1 0 360px;
+  }
+  .voice-panel {
+    min-height: 0;
+  }
+  .right-column {
+    min-height: 0;
+  }
+  .prop-dock[open] {
+    max-height: none;
+  }
+}
+@media (max-width: 580px) {
+  .topbar {
+    padding: 0 12px;
+    gap: 8px;
+  }
+  .brand-divider,
+  .university-emblem {
+    display: none;
+  }
+  .xiaomeng-mark {
+    width: 98px;
+  }
+  .connection-state {
+    font-size: 10px;
+    gap: 5px;
+    white-space: normal;
+    max-width: 115px;
+    line-height: 1.5;
+  }
+  .connection-state > i {
+    flex: none;
+    width: 7px;
+    height: 7px;
+  }
+  .scene-heading {
+    padding: 16px 14px 10px;
+  }
+  .scene-heading h2 {
+    font-size: 19px;
+  }
+  .scene-panel {
+    min-height: 540px;
+  }
+  .scene-panel > .scene {
+    flex-basis: 310px;
+    min-height: 310px;
+  }
+  .workshop-controls {
+    padding: 0 12px 12px;
+  }
+  .task-transport {
+    margin-left: 0;
+  }
+  .view-presets button,
+  .task-transport button,
+  .local-controls button,
+  .local-controls select,
+  .state-refresh,
+  .local-start {
+    min-height: 44px;
+  }
+  .direct-tasks {
+    grid-template-columns: 1fr;
+  }
+  .dock-items {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .dock-heading small {
+    display: none;
+  }
+  .voice-wave {
+    flex-basis: 100px;
+  }
+  .right-column {
+    min-height: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *:before,
+  *:after {
+    scroll-behavior: auto !important;
+  }
+  .panel,
+  button,
+  a,
+  .prop-card {
+    transition: none !important;
+  }
+}
