@@ -327,18 +327,26 @@ class Workshop:
         raise ValueError("抓放未能在动作预算内完成，保留当前场景")
 
     def _run_drive(self):
-        with self.lock:
-            robot=self._find(self.task["source"]);start=list(robot["position"])
-            target=[1.55,-.25,0] if self.task["action"]=="enter_welder" else [4.2,-1.4,0]
-            self.task["destination"]=target
-            if math.dist(start,target)<.001:
-                robot["status"]="ready" if self.task["action"]=="enter_welder" else "parked"
-                self._finish(False);return
-            self.task["phase"]="carry";robot["status"]="moving"
-        # This is a marked, empty vehicle lane; no inference or scene replacement.
-        for i in range(1,151):
-            if not self._wait():return
+        i=0
+        while self._wait():
             with self.lock:
+                # A control command may commit after _wait returned. Recheck
+                # under the same lock as motion, without consuming a frame.
+                if self.cancel.is_set():return
+                if not self.wake.is_set():continue
+                if i==0:
+                    robot=self._find(self.task["source"]);start=list(robot["position"])
+                    target=[1.55,-.25,0] if self.task["action"]=="enter_welder" else [4.2,-1.4,0]
+                    self.task["destination"]=target
+                    if math.dist(start,target)<.001:
+                        robot["status"]="ready" if self.task["action"]=="enter_welder" else "parked"
+                        self._finish(False);return
+                    self.task["phase"]="carry";robot["status"]="moving"
+                if i==150:
+                    robot["status"]="ready" if self.task["action"]=="enter_welder" else "parked"
+                    self._finish(False);return
+                # This is a marked, empty vehicle lane; no inference or scene replacement.
+                i+=1
                 t=i/150;u=t*t*(3-2*t);v=1-u;direction=-1 if target[0]<start[0] else 1
                 p1=[start[0]+direction*.9,start[1],0];p2=[target[0]-direction*.9,target[1],0]
                 robot["position"]=[v*v*v*start[j]+3*v*v*u*p1[j]+3*v*u*u*p2[j]+u*u*u*target[j] for j in range(3)]
@@ -347,7 +355,6 @@ class Workshop:
                 robot["heading"]=math.atan2(dy,dx)-(math.pi if direction<0 else 0)
                 self.history.append(robot["position"][:])
             if self.speed>0:self.cancel.wait(.04/self.speed)
-        with self.lock:robot["status"]="ready" if self.task["action"]=="enter_welder" else "parked";self._finish(False)
 
     def close(self):
         self.cancel.set();self.wake.set()
