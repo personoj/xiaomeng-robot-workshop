@@ -1,6 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
+import {existsSync} from 'node:fs';
+import {pathToFileURL} from 'node:url';
 import {PrincipleVoice} from '../frontend/principle-voice.js';
 import {PrincipleTimeline} from '../frontend/principle-timeline.js';
 
@@ -10,6 +12,10 @@ const playerURL = new URL('../frontend/principle-player.js', import.meta.url);
 const source = (await readFile(playerURL, 'utf8')).replace(/^import '\.\/principle-player\.css';\r?\n/m, '')
   .replace(/from '(\.\/[^']+)'/g, (_, path) => `from '${new URL(path, playerURL).href}'`);
 const {PrinciplePlayer} = await import('data:text/javascript;base64,' + Buffer.from(source).toString('base64'));
+const sdkURL = process.env.XIAOMENG_HARNESS_SDK ? pathToFileURL(process.env.XIAOMENG_HARNESS_SDK)
+  : new URL('../../xiaoyun-realtime/web/client.js', import.meta.url);
+const VoiceClient = existsSync(sdkURL) ? (await import(sdkURL)).VoiceClient : null;
+const sdkOptions = {skip:!VoiceClient && 'Clone sibling xiaoyun-realtime to run the real SDK contract'};
 const deferred = () => { let resolve, reject; const promise = new Promise((yes, no) => { resolve=yes; reject=no; }); return {promise, resolve, reject}; };
 const flush = async () => { for (let i=0; i<6; i++) await Promise.resolve(); };
 const wave = () => {
@@ -45,6 +51,78 @@ function fixture(t) {
   t.after(() => voice.dispose());
   return {player, voice, bridge, events, replaceBridge:value => {connection=value;}};
 }
+
+function sdkFixture(t) {
+  const fixtureValue = fixture(t);
+  const client = new VoiceClient({baseURL:'http://offline.invalid', sessionId:'synthetic', role:'page'});
+  client.send = () => {};
+  client.registerActions(fixtureValue.voice.tools());
+  client.addEventListener('event', ({detail}) => fixtureValue.voice.event(detail));
+  const begin = async () => {
+    await client.receive({type:'turn.started', turn:1, revision:1});
+    await client.execute({call_id:'lesson-call', name:'show_principle_lesson', args:{topic:'coordinates'},
+      expected_revision:1, turn:1, response_id:'source-response'});
+    return client.completed.get('lesson-call').result;
+  };
+  return {...fixtureValue, client, begin};
+}
+
+test('real SDK scene revisions do not freeze admitted sample-clock narration', sdkOptions, async t => {
+  const {player, voice, client, begin} = sdkFixture(t);
+  const {narration_id:id} = await begin();
+  const progress = seconds => client.receive({type:'narration.progress', narration_id:id, played_seconds:seconds});
+  await progress(5);
+  assert.equal(player.externalTarget,5);
+  for (const [revision, context] of [[2,{view:3}], [3,{objects:[{id:'ball_9'}]}], [4,{status:'completed'}]]) {
+    await client.receive({type:'context.updated', revision, context});
+    await progress(5 + revision);
+    assert.equal(player.externalTarget,5 + revision);
+  }
+  const duration=player.snapshot().duration;
+  await client.receive({type:'narration.progress', narration_id:id, played_seconds:duration, completed:true});
+  assert.equal(player.snapshot().elapsed,duration);
+  assert.equal(player.snapshot().status,'completed');
+  assert.equal(voice.active,null);
+});
+
+test('real SDK revision change during preparation still invalidates admission', sdkOptions, async t => {
+  const {player, voice, bridge, client, begin} = sdkFixture(t), pending=deferred();
+  bridge.prepareNarration = () => pending.promise;
+  const preparation=begin(); await flush();
+  await client.receive({type:'context.updated',revision:2,context:{view:3}});
+  pending.resolve();
+  assert.equal((await preparation).error,'narration_cancelled');
+  assert.equal(voice.active,null);
+  assert.equal(player.snapshot().status,'paused');
+});
+
+for (const interruption of ['turn', 'transport', 'session-stop', 'local-stop', 'connection-replaced'])
+  test(`real SDK admitted narration still rejects late playback after ${interruption}`, sdkOptions, async t => {
+    const {player, voice, client, begin, replaceBridge} = sdkFixture(t);
+    const {narration_id:id} = await begin();
+    await client.receive({type:'context.updated', revision:2, context:{view:3}});
+    await client.receive({type:'narration.progress', narration_id:id, played_seconds:7});
+    if (interruption==='turn') await client.receive({type:'turn.started',turn:2,revision:2});
+    if (interruption==='transport') await client.receive({type:'transport.closed'});
+    if (interruption==='session-stop') await client.receive({type:'state',state:'disconnected'});
+    if (interruption==='local-stop') player.stop();
+    if (interruption==='connection-replaced') replaceBridge({cancelNarration(){}});
+    const before=player.snapshot(), target=player.externalTarget;
+    await client.receive({type:'narration.progress',narration_id:id,played_seconds:59,completed:true});
+    assert.deepEqual(player.snapshot(),before);
+    assert.equal(player.externalTarget,target);
+    if (interruption!=='connection-replaced') assert.equal(voice.active,null);
+  });
+
+for (const type of ['narration.stopped','narration.failed'])
+  test(`real SDK ${type} still retires admitted narration after a scene update`, sdkOptions, async t => {
+    const {player,voice,client,begin}=sdkFixture(t);
+    const {narration_id:id}=await begin();
+    await client.receive({type:'context.updated',revision:2,context:{view:3}});
+    await client.receive({type,narration_id:id});
+    assert.equal(voice.active,null);
+    assert.equal(player.snapshot().status,'paused');
+  });
 
 test('local play, pause, resume, seek and replay keep the actual browser audio clock', async t => {
   const {player} = fixture(t);

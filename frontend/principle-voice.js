@@ -53,9 +53,12 @@ export class PrincipleVoice {
     if (this.active === request) this.active = null;
     if (owned) this.player.interruptNarration(this.unconfirmed.size ? '语音端停止未确认，请检查连接后重试' : '讲解已中断，可在此继续');
   }
-  current(request) {
+  owns(request) {
     return !this.disposed && !this.player.disposed && !request.retired && request.epoch === this.epoch
-      && request.bridge === this.getBridge() && (!request.isCurrent || request.isCurrent());
+      && request.bridge === this.getBridge();
+  }
+  current(request) {
+    return this.owns(request) && (!request.isCurrent || request.isCurrent());
   }
   event(event) {
     if (this.disposed) return;
@@ -75,7 +78,12 @@ export class PrincipleVoice {
       }
     }
     const request = this.active || this.pending;
-    if (!request || event.narration_id !== request.id || !this.current(request)) return;
+    // The execution guard protects preparation from obsolete page intent. Once
+    // admitted, playback belongs to this narration/connection, not the scene
+    // revision: camera and robot updates must not discard heard-sample receipts.
+    // Turn/connection/session interruption above still retires that ownership.
+    if (!request || event.narration_id !== request.id
+      || !(request === this.active ? this.owns(request) : this.current(request))) return;
     if (event.type === 'narration.stopped' || event.type === 'narration.failed') {
       // The server has acknowledged retirement; no extra cancellation is needed.
       request.preparing = false; this.cancel();

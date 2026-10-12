@@ -23,13 +23,15 @@ function refresh(detail){
 player=new PrinciplePlayer($('lesson-player'),{onChange:refresh});const detach=attachPrincipleAPI(player);
 function selectTopic(id,autoplay=true){
   const lesson=lessonById(id);if(!lesson)return;currentTopic=id;
-  document.querySelectorAll('[data-topic]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.topic===id)));
+  document.querySelectorAll('.topic-tabs [data-topic]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.topic===id)));
   $('script-list').innerHTML=lesson.steps.map((s,i)=>`<li data-script-step="${i}"><button type="button"><span>0${i+1}</span><strong>${s.title}</strong><small>${s.seconds.toFixed(1)}秒</small></button><p>${s.speech}</p></li>`).join('');
   $('script-list').querySelectorAll('button').forEach((button,i)=>button.onclick=()=>{player.pause();player.seekStep(i,0);refresh();});
   $('studio-source').href=lesson.source.url;$('studio-source').title=lesson.source.title;$('seek').max=String(lessonDuration(lesson));$('duration-note').textContent=`本主题 ${lesson.steps.length} 段 · 实录 ${lessonDuration(lesson).toFixed(1)} 秒`;
   player.start(id,{autoplay});refresh();const url=new URL(location.href);url.searchParams.set('topic',id);history.replaceState(null,'',url);
 }
-document.querySelectorAll('[data-topic]').forEach(button=>button.onclick=()=>selectTopic(button.dataset.topic));
+// The player root also exposes data-topic as state. Bind only actual tabs so
+// bubbling chapter clicks cannot restart the lesson through the player root.
+document.querySelectorAll('.topic-tabs [data-topic]').forEach(button=>button.onclick=()=>selectTopic(button.dataset.topic));
 $('play').onclick=()=>{player.snapshot().status==='playing'?player.pause():player.resume();refresh();};
 $('previous').onclick=()=>{player.pause();player.seekStep(Math.max(0,player.snapshot().step-1));refresh();};
 $('next').onclick=()=>{player.pause();player.seekStep(Math.min(3,player.snapshot().step+1));refresh();};
