@@ -71,15 +71,45 @@ test('studio retains a single transport and keeps script, topic and player align
   await expect(page.locator('.studio-visual .principle-controls')).toBeHidden();
   await expect(page.locator('.studio-transport')).toBeVisible();
   await page.locator('.topic-tabs [data-topic="planning"]').click();
+  await expect.poll(async () => (await state(page)).status).toBe('playing');
   await page.locator('#play').click();
+  await expect.poll(async () => (await state(page)).status).toBe('paused');
   await expect.poll(async () => (await state(page)).topic).toBe('planning');
   await expect(page.locator('#script-list li').first()).toContainText('碰撞');
   const chapter=page.locator('[data-lesson-step="2"]');
   await chapter.click();
+  await expect.poll(async () => (await state(page)).step).toBe(2);
+  await expect.poll(async () => (await state(page)).elapsed).toBeGreaterThan(20);
+  await expect.poll(async () => (await state(page)).status).toBe('paused');
   await expect(page.locator('#script-list li').nth(2)).toHaveAttribute('data-current','true');
+  await page.locator('#play').click();
+  await expect.poll(async () => (await state(page)).status).toBe('playing');
+  await page.locator('[data-lesson-step="1"]').click();
+  await expect.poll(async () => (await state(page)).step).toBe(1);
+  await expect.poll(async () => (await state(page)).elapsed).toBeGreaterThan(10);
+  await expect.poll(async () => (await state(page)).topic).toBe('planning');
   await page.locator('#replay').click();
   await expect.poll(async () => (await state(page)).topic).toBe('planning');
+  await expect.poll(async () => (await state(page)).elapsed).toBeLessThan(3);
 });
+
+for (const viewport of [{width:1280,height:720},{width:1080,height:720}]) {
+  test(`local-start action is not covered by voice guidance at ${viewport.width}`, async ({page}) => {
+    await page.setViewportSize(viewport); await openMain(page);
+    const start=page.locator('#open-local-controls');
+    await start.scrollIntoViewIfNeeded();
+    const bounds=await start.evaluate(el => {
+      const a=el.getBoundingClientRect(), b=document.querySelector('.voice-guidance').getBoundingClientRect();
+      return {separated:a.bottom<=b.top, hits:[.15,.5,.85].every(t => {
+        const hit=document.elementFromPoint(a.left+a.width/2,a.top+a.height*t);
+        return hit===el||el.contains(hit);
+      })};
+    });
+    expect(bounds.separated).toBe(true); expect(bounds.hits).toBe(true);
+    await start.click();
+    await expect(page.locator('#prop-dock')).toHaveAttribute('open','');
+  });
+}
 
 for (const viewport of [{width:1920,height:1080},{width:1440,height:900},{width:1280,height:720},{width:1080,height:720},{width:390,height:844}]) {
   test(`lesson controls remain reachable at ${viewport.width}×${viewport.height}`, async ({page}, testInfo) => {
